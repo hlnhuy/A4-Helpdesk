@@ -1,0 +1,2 @@
+-- Insert only fictional/demo data here.
+-- TODO: add demo roles, categories and accounts after schema.sql is implemented.
