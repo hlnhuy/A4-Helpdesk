@@ -1,4 +1,4 @@
 export default function Notification({ message, type = 'info' }) {
   if (!message) return null;
-  return <div role="status" data-type={type}>{message}</div>;
+  return <div className={`app-notification notification-${type}`} role={type === 'error' ? 'alert' : 'status'}>{message}</div>;
 }

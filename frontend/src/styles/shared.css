@@ -1,0 +1,19 @@
+.panel { min-width: 0; margin-bottom: 16px; padding: 16px; border: 1px solid #e8eaf1; border-radius: 13px; background: white; box-shadow: 0 2px 6px rgba(24,38,72,.015); }
+.panel h2, .panel h3 { margin: 0 0 12px; font-size: 14px; line-height: 1.35; font-weight: 750; }
+.panel h3 { font-size: 13px; }
+.form-actions { display: flex; align-items: center; gap: 8px; }
+.button { min-height: 34px; display: inline-flex; align-items: center; justify-content: center; gap: 5px; padding: 0 12px; border: 1px solid transparent; border-radius: 8px; font-size: 12px; font-weight: 650; text-decoration: none; white-space: nowrap; }
+.button-primary { background: #2867e8; color: white; }
+.button-primary:hover { background: #1d59d2; }
+.button-secondary { border-color: #e2e6ee; background: white; color: #242b38; }
+.button-secondary:hover { background: #f8f9fc; }
+.button-danger { min-height: 27px; padding: 0 9px; border-color: #f1d7dc; background: #fff; color: #cf4c57; }
+.button-approve { min-height: 29px; padding: 0 10px; background: #1d9a51; color: white; }
+.badge { display: inline-flex; align-items: center; min-height: 19px; padding: 2px 8px; border-radius: 99px; font-size: 10px; font-weight: 700; white-space: nowrap; }
+.badge-blue { background: #e5efff; color: #2867c6; }
+.badge-red { background: #ffe8e8; color: #c94242; }
+.badge-orange { background: #fff0d9; color: #b86c0c; }
+.badge-green { background: #ddf8e8; color: #168047; }
+.badge-gray { background: #edf0f4; color: #606a79; }
+.muted { color: #818b9b; }
+.small { font-size: 10px; }

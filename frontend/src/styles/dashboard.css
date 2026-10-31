@@ -1,0 +1,63 @@
+.metric-grid { display: grid; grid-template-columns: repeat(5, minmax(0,1fr)); gap: 9px; margin-bottom: 16px; }
+.metric-card { min-height: 91px; display: flex; flex-direction: column; justify-content: center; gap: 6px; margin: 0; padding: 12px 14px; }
+.metric-card > span { color: #798397; font-size: 10px; font-weight: 600; }
+.metric-card strong { color: #151d2f; font-size: 25px; line-height: 1; }
+.metric-card small { margin-top: -3px; color: #8a93a3; font-size: 10px; }
+.dashboard-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0 12px; }
+.dashboard-grid .panel { margin-bottom: 12px; }
+.two-column { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.two-column .panel { margin-bottom: 16px; }
+.chart-legend { min-height: 117px; display: flex; align-items: center; gap: 24px; padding: 0 6px; }
+.donut { width: 108px; height: 108px; flex: 0 0 auto; display: grid; place-items: center; border-radius: 50%; }
+.donut > span { width: 69px; height: 69px; display: grid; place-items: center; border-radius: 50%; background: white; font-size: 22px; font-weight: 750; }
+.chart-legend ul { display: grid; gap: 8px; margin: 0; padding: 0; list-style: none; font-size: 12px; }
+.chart-legend li { display: flex; align-items: center; gap: 7px; }
+.chart-legend li b { margin-left: -3px; }
+.chart-legend li i { width: 9px; height: 9px; border-radius: 2px; }
+.legend-blue { background: #3983ed; }
+.legend-orange { background: #f4a000; }
+.legend-green { background: #22bf68; }
+.legend-gray { background: #9aa8bb; }
+.mini-bars { height: 126px; display: flex; align-items: end; justify-content: space-around; gap: 6px; padding: 10px 0 0; }
+.mini-bars > div { height: 100%; flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: end; gap: 4px; }
+.mini-bars b { height: 12px; color: #4f5d71; font-size: 9px; }
+.mini-bars i { width: min(24px, 75%); min-height: 3px; border-radius: 5px 5px 0 0; background: linear-gradient(#65a6ff,#3479e8); }
+.mini-bars small { color: #7a8495; font-size: 8px; white-space: nowrap; }
+.summary-line { display: flex; justify-content: space-between; gap: 10px; margin: 10px 0; font-size: 11px; }
+.summary-line span { color: #6d7788; }
+.summary-line b { min-width: 52%; }
+.bar-list { display: grid; gap: 10px; padding: 1px 2px; }
+.bar-row { display: grid; grid-template-columns: minmax(75px, 1fr) 2fr 18px; align-items: center; gap: 9px; font-size: 11px; }
+.bar-row > span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.bar-row > i { height: 10px; overflow: hidden; border-radius: 99px; background: #eef0ff; }
+.bar-row > i b { height: 100%; display: block; border-radius: inherit; background: linear-gradient(90deg,#2867e8,#8142e6); }
+.bar-row > strong { text-align: right; }
+.table-card { padding-bottom: 10px; }
+.table-card h2 { margin-bottom: 12px; }
+.table-scroll { width: 100%; overflow-x: auto; }
+.data-table { width: 100%; border-collapse: collapse; font-size: 11px; }
+.data-table th { color: #778194; font-size: 10px; font-weight: 700; text-transform: uppercase; }
+.data-table th, .data-table td { min-width: 68px; padding: 10px 8px; border-bottom: 1px solid #eff0f4; text-align: left; vertical-align: middle; }
+.data-table th:nth-child(2), .data-table td:nth-child(2) { min-width: 190px; }
+.data-table tr:last-child td { border-bottom: 0; }
+.data-table tbody tr:hover { background: #fafbff; }
+.data-table td a { color: #2867e8; text-decoration: none; }
+.overdue { display: block; margin-top: 3px; color: #cf4444; font-weight: 700; }
+.activity-list { display: grid; gap: 0; margin: 0; padding: 0; list-style: none; color: #626d7e; font-size: 10px; }
+.activity-list li { padding: 7px 0; border-bottom: 1px solid #f0f1f5; }
+.activity-list li:last-child { border: 0; }
+.report-metrics { grid-template-columns: repeat(5,minmax(0,1fr)); gap: 8px; }
+.report-metrics .metric-card { min-height: 58px; padding: 9px; }
+.report-metrics .metric-card strong { font-size: 19px; }
+.report-metrics .metric-card:nth-child(6) { grid-column: 1; }
+.report-charts .panel { min-height: 165px; }
+.report-charts .chart-legend { min-height: 110px; gap: 18px; }
+
+@media (max-width: 1050px) {
+  .admin-metrics, .tech-metrics { grid-template-columns: repeat(3,minmax(0,1fr)); }
+}
+@media (max-width: 720px) {
+  .dashboard-grid, .two-column { grid-template-columns: 1fr; }
+  .metric-grid, .admin-metrics, .tech-metrics, .report-metrics { grid-template-columns: repeat(2,minmax(0,1fr)); }
+  .metric-card { min-height: 75px; }
+}

@@ -50,14 +50,27 @@ Bộ khung ban đầu cho đề tài A4 – Hệ thống tiếp nhận và xử 
 
 ## Chạy frontend
 
-Cài đặt Node.js trước. Mở terminal tại thư mục `frontend`, sau đó chạy:
+Cài đặt Node.js trước. Chạy các lệnh sau từ thư mục gốc của dự án:
 
-```bash
+```powershell
 npm install
 npm run dev
 ```
 
 Vite sẽ hiển thị địa chỉ website trong terminal, thường là `http://localhost:5173`.
+Để tạo bản build production, chạy `npm run build`. Nếu muốn chạy trực tiếp trong thư mục `frontend`, cũng có thể chạy `npm install` và `npm run dev` tại đó.
+
+### Tài khoản demo frontend
+
+Frontend hiện chạy bằng dữ liệu demo lưu trong `localStorage` của trình duyệt; tài khoản demo không xác thực với backend:
+
+| Vai trò | Mã tài khoản | Mật khẩu |
+| --- | --- | --- |
+| Quản trị viên | `admin` | `admin123` |
+| Kỹ thuật viên | `ktv1` | `ktv123` |
+| Người dùng | `user1` | `user123` |
+
+Tạo phiếu, phân công, cập nhật trạng thái, quản lý tài khoản/chuyên môn, báo cáo và mã QR đều thao tác trên dữ liệu demo của trình duyệt. Xóa dữ liệu trang web trong trình duyệt sẽ khôi phục bộ dữ liệu mẫu ban đầu.
 
 ## Cơ sở dữ liệu
 

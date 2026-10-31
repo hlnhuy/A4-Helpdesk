@@ -1,4 +1,3 @@
-import { apiRequest } from './api.js';
+import { assignTicket, createTicket, getTicket, getTickets, unassignTicket, updateTicket } from './demoDataService.js';
 
-export function getTickets() { return apiRequest('/tickets'); }
-export function createTicket(payload) { return apiRequest('/tickets', { method: 'POST', body: JSON.stringify(payload) }); }
+export { assignTicket, createTicket, getTicket, getTickets, unassignTicket, updateTicket };

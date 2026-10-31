@@ -1,1 +1,10 @@
 .technician-layout { min-width: 0; }
+.availability { display: flex; flex-direction: column; justify-content: center; gap: 2px; margin: 0; padding: 12px 14px; }
+.availability > span { color: #798397; font-size: 10px; font-weight: 600; }
+.availability strong { font-size: 22px; white-space: nowrap; }
+.availability strong i { display: inline-block; width: 23px; height: 23px; border-radius: 50%; vertical-align: -2px; background: #78ba3c; }
+.availability a { color: #3477db; font-size: 11px; text-decoration: none; }
+
+@media (max-width: 720px) {
+  .availability strong { font-size: 18px; }
+}

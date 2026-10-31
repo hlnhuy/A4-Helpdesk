@@ -1,1 +1,1 @@
-.user-layout, .technician-layout, .admin-layout { display: grid; gap: 20px; }
+.user-layout, .technician-layout, .admin-layout { min-width: 0; }

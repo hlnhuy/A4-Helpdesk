@@ -1,3 +1,3 @@
-import { apiRequest } from './api.js';
+import { deleteCategory, getCategories, saveCategory } from './demoDataService.js';
 
-export function getCategories() { return apiRequest('/categories'); }
+export { deleteCategory, getCategories, saveCategory };

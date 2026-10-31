@@ -1,4 +1,3 @@
-import { apiRequest } from './api.js';
+import { approveAccount, declineAccount, getPendingAccounts, getUsers, resetUserPassword, saveUser, setUserStatus, updateTechnicianSkills } from './demoDataService.js';
 
-export function getUsers() { return apiRequest('/users'); }
-export function createUser(payload) { return apiRequest('/users', { method: 'POST', body: JSON.stringify(payload) }); }
+export { approveAccount, declineAccount, getPendingAccounts, getUsers, resetUserPassword, saveUser, setUserStatus, updateTechnicianSkills };
