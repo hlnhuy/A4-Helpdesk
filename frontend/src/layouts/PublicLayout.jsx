@@ -9,7 +9,6 @@ export default function PublicLayout({ children }) {
           <span>A4 Helpdesk</span>
         </Link>
         <nav className="public-header-actions" aria-label="Điều hướng chính">
-          <Link className="button button-secondary" to="/#account-instructions">Xin cấp tài khoản</Link>
           <Link className="button button-primary" to="/login">Đăng nhập</Link>
         </nav>
       </header>

@@ -3,6 +3,7 @@ import Panel from './Panel.jsx';
 export default function TicketTimeline({ ticket }) {
   const rows = [
     ['Tạo phiếu', ticket.createdAt],
+    ['Duyệt ưu tiên', ticket.priorityApprovedAt],
     ['Phân công', ticket.technicianId ? ticket.history?.find(event => event.type === 'assigned')?.createdAt : null],
     ['Bắt đầu xử lý', ticket.startedAt],
     ['Giải quyết', ticket.resolvedAt],

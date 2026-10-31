@@ -1,3 +1,3 @@
-import { deleteCategory, getCategories, saveCategory } from './demoDataService.js';
+import { deleteCategory, getCategories, renameCategory, saveCategory } from './demoDataService.js';
 
-export { deleteCategory, getCategories, saveCategory };
+export { deleteCategory, getCategories, renameCategory, saveCategory };

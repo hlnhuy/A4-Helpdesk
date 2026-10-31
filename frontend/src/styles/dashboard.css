@@ -61,3 +61,83 @@
   .metric-grid, .admin-metrics, .tech-metrics, .report-metrics { grid-template-columns: repeat(2,minmax(0,1fr)); }
   .metric-card { min-height: 75px; }
 }
+
+.admin-metrics { grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 12px; margin-bottom: 12px; }
+.metric-card {
+  position: relative; min-height: 92px; flex-direction: row; align-items: center; justify-content: flex-start;
+  gap: 12px; overflow: hidden; padding: 14px 15px; border-color: rgba(224, 231, 248, .9);
+  border-radius: 17px; background: linear-gradient(135deg, rgba(255,255,255,.97), rgba(247,249,255,.93));
+  box-shadow: 0 5px 16px rgba(48, 77, 139, .08);
+}
+.metric-icon { width: 40px; height: 40px; flex: 0 0 40px; display: grid; place-items: center; border-radius: 13px; color: #fff; background: linear-gradient(145deg, #40a5ff, #2670ef); box-shadow: 0 5px 12px rgba(46, 123, 236, .23); font-size: 19px !important; }
+.metric-copy { min-width: 0; display: grid; gap: 5px; }
+.metric-copy > span { color: #3b4965; font-size: 11px; font-weight: 700; }
+.metric-copy strong { color: #111f48; font-size: 27px; line-height: 1; }
+.metric-copy small { margin: -2px 0 0; color: #7d89a2; font-size: 9px; }
+.metric-trend { width: 16px; height: 16px; position: absolute; top: 13px; right: 12px; display: grid; place-items: center; border-radius: 50%; color: #2874e9; background: #e8f1ff; font-size: 10px; }
+.metric-green .metric-icon { background: linear-gradient(145deg, #4cdbbb, #20b995); }
+.metric-green .metric-trend { color: #20b995; background: #e3fbf4; }
+.metric-orange .metric-icon { background: linear-gradient(145deg, #ffca73, #ff951a); }
+.metric-orange .metric-trend { color: #f1871b; background: #fff1df; }
+.metric-purple .metric-icon { background: linear-gradient(145deg, #c58aff, #8750ed); }
+.metric-purple .metric-trend { color: #8a51ea; background: #f0e8ff; }
+.metric-red .metric-icon { background: linear-gradient(145deg, #ff8587, #f44552); }
+.metric-red .metric-trend { color: #f44552; background: #ffe8ec; }
+.admin-dashboard-grid { gap: 0 12px; }
+.admin-dashboard-grid .panel { margin-bottom: 12px; padding: 16px 18px; border-color: rgba(224, 231, 248, .9); border-radius: 17px; box-shadow: 0 5px 16px rgba(48, 77, 139, .07); }
+.admin-dashboard-grid h2, .admin-recent-panel h2 { display: flex; align-items: center; gap: 9px; margin-bottom: 13px; color: #182950; font-size: 14px; }
+.dashboard-panel-icon { min-width: 22px; display: inline-grid; place-items: center; color: #2874ee; font-size: 18px; }
+.dashboard-chart-panel { min-height: 193px; }
+.dashboard-chart-panel .chart-legend { min-height: 128px; gap: 28px; }
+.dashboard-chart-panel .donut { width: 124px; height: 124px; }
+.dashboard-chart-panel .donut > span { width: 79px; height: 79px; color: #19284f; font-size: 21px; }
+.dashboard-chart-panel .chart-legend ul { gap: 9px; color: #263657; font-size: 12px; }
+.dashboard-chart-panel .chart-legend li i { width: 11px; height: 11px; border-radius: 50%; }
+.dashboard-week-bars { height: 137px; position: relative; align-items: end; padding: 0 4px; background: repeating-linear-gradient(to bottom, transparent 0, transparent 31px, #edf1fa 32px); }
+.dashboard-week-bars > div { gap: 4px; }
+.dashboard-week-bars strong { height: auto; color: #19284f; font-size: 12px; }
+.dashboard-week-bars i { width: min(32px, 70%); min-height: 4px; background: linear-gradient(180deg, #53a7ff, #2477f2); box-shadow: 0 3px 8px rgba(40, 120, 239, .2); }
+.dashboard-week-bars small { color: #293a5f; font-size: 9px; }
+.dashboard-average-panel, .dashboard-workload-panel { min-height: 145px; }
+.average-metrics { min-height: 77px; display: grid; grid-template-columns: repeat(3, 1fr); align-items: center; }
+.average-metrics > div { min-width: 0; display: flex; align-items: center; gap: 9px; padding: 0 10px; border-right: 1px solid #e8edf7; }
+.average-metrics > div:first-child { padding-left: 0; }
+.average-metrics > div:last-child { border: 0; }
+.average-icon { width: 38px; height: 38px; flex: 0 0 38px; display: grid; place-items: center; border-radius: 50%; font-size: 17px; font-weight: 800; }
+.average-blue { color: #327af0; background: #e7f0ff; }
+.average-green { color: #23bb9c; background: #e1faf3; }
+.average-purple { color: #9155e9; background: #f0e7ff; }
+.average-metrics p { display: grid; gap: 5px; margin: 0; color: #455573; font-size: 10px; }
+.average-metrics strong { color: #2867e8; font-size: 15px; white-space: nowrap; }
+.technician-workload-list { display: grid; gap: 13px; padding-top: 1px; }
+.technician-workload-row { display: grid; grid-template-columns: minmax(110px, 145px) 1fr 20px; align-items: center; gap: 11px; color: #263657; font-size: 11px; }
+.technician-workload-row > i { height: 11px; overflow: hidden; border-radius: 99px; background: #e8ecf7; }
+.technician-workload-row > i b { height: 100%; display: block; border-radius: inherit; background: #2876f2; }
+.technician-workload-row > i .workload-color-1 { background: #8d47ec; }
+.technician-workload-row > i .workload-color-2 { background: #27c19e; }
+.technician-workload-row > strong { text-align: right; }
+.admin-recent-panel { padding: 14px 17px 9px; border-color: rgba(224, 231, 248, .9); border-radius: 17px; box-shadow: 0 5px 16px rgba(48, 77, 139, .07); }
+.admin-recent-panel h2 { margin: 0; }
+.admin-recent-panel .panel-heading-row { margin-bottom: 8px; }
+.admin-recent-panel .panel-heading-row a { font-size: 11px; }
+.admin-recent-panel .data-table th { background: #f5f7fc; color: #63718e; }
+.admin-recent-panel .data-table th, .admin-recent-panel .data-table td { padding: 8px 7px; }
+
+@media (max-width: 1050px) {
+  .admin-metrics { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+@media (max-width: 720px) {
+  .admin-metrics { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+  .metric-card { min-height: 76px; gap: 8px; padding: 10px; }
+  .metric-icon { width: 33px; height: 33px; flex-basis: 33px; }
+  .metric-copy strong { font-size: 23px; }
+  .dashboard-chart-panel { min-height: 0; }
+  .dashboard-chart-panel .chart-legend { min-height: 115px; gap: 18px; }
+  .dashboard-chart-panel .donut { width: 105px; height: 105px; }
+  .dashboard-chart-panel .donut > span { width: 68px; height: 68px; }
+  .average-metrics > div { gap: 5px; padding: 0 5px; }
+  .average-icon { width: 30px; height: 30px; flex-basis: 30px; }
+  .average-metrics strong { font-size: 12px; }
+  .technician-workload-row { grid-template-columns: minmax(82px, 120px) 1fr 16px; gap: 7px; font-size: 10px; }
+  .admin-recent-panel .table-scroll { overflow-x: auto; }
+}

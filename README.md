@@ -70,7 +70,8 @@ Frontend hiện chạy bằng dữ liệu demo lưu trong `localStorage` của t
 | Kỹ thuật viên | `ktv1` | `ktv123` |
 | Người dùng | `user1` | `user123` |
 
-Tạo phiếu, phân công, cập nhật trạng thái, quản lý tài khoản/chuyên môn, báo cáo và mã QR đều thao tác trên dữ liệu demo của trình duyệt. Xóa dữ liệu trang web trong trình duyệt sẽ khôi phục bộ dữ liệu mẫu ban đầu.
+Tạo phiếu, phân công, cập nhật trạng thái, quản lý tài khoản/chuyên môn và báo cáo đều thao tác trên dữ liệu demo của trình duyệt. Xóa dữ liệu trang web trong trình duyệt sẽ khôi phục bộ dữ liệu mẫu ban đầu.
+Người dùng không chọn mức độ ưu tiên khi gửi phiếu; admin duyệt mức ưu tiên tại trang chi tiết phiếu.
 
 ## Cơ sở dữ liệu
 

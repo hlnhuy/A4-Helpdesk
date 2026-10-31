@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import Header from './Header.jsx';
 import Sidebar from './Sidebar.jsx';
@@ -22,7 +23,6 @@ const navigation = {
     ['👥', 'Tài khoản', '/admin/users'],
     ['⚒', 'Chuyên môn', '/admin/categories'],
     ['📈', 'Báo cáo & thống kê', '/admin/reports'],
-    ['▦', 'Mã QR', '/admin/qr'],
     ['⚙', 'Hồ sơ', '/admin/profile']
   ]
 };
@@ -30,12 +30,14 @@ const navigation = {
 export default function AppShell({ role, title, children }) {
   const { pathname } = useLocation();
   const links = navigation[role];
+  const [navigationOpen, setNavigationOpen] = useState(false);
 
   return (
-    <div className={`app-shell app-shell-${role}`}>
-      <Sidebar role={role} links={links} pathname={pathname}/>
+    <div className={`app-shell app-shell-${role}${navigationOpen ? ' navigation-open' : ''}`}>
+      {navigationOpen && <button className="navigation-backdrop" type="button" aria-label="Đóng điều hướng" onClick={() => setNavigationOpen(false)} />}
+      <Sidebar role={role} links={links} pathname={pathname} onNavigate={() => setNavigationOpen(false)}/>
       <div className="app-main">
-        <Header role={role} title={title}/>
+        <Header role={role} title={title} navigationOpen={navigationOpen} onMenuToggle={() => setNavigationOpen(value => !value)}/>
         <main className="app-content">{children}</main>
       </div>
     </div>

@@ -1,4 +1,5 @@
 import { useMemo } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import RoleLayout from '../../layouts/RoleLayout.jsx';
 import Panel from '../../components/common/Panel.jsx';
 import StatusBadge from '../../components/common/StatusBadge.jsx';
@@ -7,17 +8,20 @@ import { assignTicket, getTickets } from '../../services/ticketService.js';
 import { getUsers } from '../../services/userService.js';
 
 export default function Assignments() {
+  const [searchParams, setSearchParams] = useSearchParams();
   const [tickets] = useDemoData(getTickets);
   const [users] = useDemoData(getUsers);
   const technicians = users.filter(user => user.role === 'technician' && user.status === 'active');
+  const selectedTicket = tickets.find(ticket => ticket.id === searchParams.get('ticket'));
   const waiting = useMemo(() => tickets.filter(ticket => !ticket.technicianId || ticket.status === 'Mới tiếp nhận'), [tickets]);
   function assign(ticketId, event) {
     if (event.target.value) assignTicket(ticketId,event.target.value);
   }
   return <RoleLayout role="admin" title="Theo dõi & phân công">
+    {selectedTicket && <Panel className="table-card selected-assignment-panel"><div className="panel-heading-row"><h2>Phân công phiếu {selectedTicket.id}</h2><button className="text-button" type="button" onClick={() => setSearchParams({})}>Đóng</button></div><p>{selectedTicket.title} · {selectedTicket.category} · {selectedTicket.location}</p><label className="field">Kỹ thuật viên<select aria-label="Kỹ thuật viên được phân công" value={selectedTicket.technicianId || ''} onChange={event => { if (event.target.value) assign(selectedTicket.id, event); }}><option value="" disabled>Chọn kỹ thuật viên</option>{technicians.map(tech=><option key={tech.id} value={tech.id}>{tech.full_name}</option>)}</select></label></Panel>}
     <Panel className="table-card"><h2>Phiếu chờ phân công ({waiting.filter(ticket=>!ticket.technicianId).length})</h2>
       {waiting.filter(ticket=>!ticket.technicianId).length ? <div className="table-scroll"><table className="data-table"><thead><tr><th>Mã</th><th>Tiêu đề</th><th>Loại</th><th>Ưu tiên</th><th>Người gửi</th><th>Giao cho KTV</th></tr></thead><tbody>
-        {waiting.filter(ticket=>!ticket.technicianId).map(ticket=>{const qualified=technicians.filter(tech=>(tech.skills||[]).includes(ticket.category));const choices=qualified.length?qualified:technicians;return <tr key={ticket.id}><td>{ticket.id}</td><td>{ticket.title}</td><td>{ticket.category}</td><td><StatusBadge value={ticket.priority}/></td><td>{ticket.requester}</td><td><select defaultValue="" onChange={event=>assign(ticket.id,event)}><option value="" disabled>Chọn kỹ thuật viên</option>{choices.map(tech=><option key={tech.id} value={tech.id}>{tech.full_name}</option>)}</select></td></tr>;})}
+        {waiting.filter(ticket=>!ticket.technicianId).map(ticket=>{const qualified=technicians.filter(tech=>(tech.skills||[]).includes(ticket.category));const choices=qualified.length?qualified:technicians;return <tr key={ticket.id}><td>{ticket.id}</td><td>{ticket.title}</td><td>{ticket.category}</td><td><StatusBadge value={ticket.priority || 'Chờ duyệt'}/></td><td>{ticket.requester}</td><td><select defaultValue="" onChange={event=>assign(ticket.id,event)}><option value="" disabled>Chọn kỹ thuật viên</option>{choices.map(tech=><option key={tech.id} value={tech.id}>{tech.full_name}</option>)}</select></td></tr>;})}
       </tbody></table></div> : <p className="empty-message">Tất cả phiếu đã có người phụ trách ✅</p>}
     </Panel>
     <Panel><h2>Quy tắc tự động phân công</h2><ol className="rules-list"><li>Lọc kỹ thuật viên đang hoạt động và có chuyên môn phù hợp.</li><li>So sánh số phiếu đang xử lý của từng kỹ thuật viên.</li><li>Ưu tiên giao cho người đang có ít phiếu nhất.</li><li>Admin có thể đổi người phụ trách tại trang chi tiết phiếu.</li></ol></Panel>

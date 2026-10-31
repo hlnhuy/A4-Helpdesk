@@ -3,6 +3,8 @@ const SESSION_KEY = 'a4-helpdesk-demo-session';
 const CHANGE_EVENT = 'a4-helpdesk-demo-data-change';
 
 const categoryNames = ['Wi-Fi', 'Internet', 'Mạng LAN', 'Thiết bị', 'Khác'];
+const priorityLevels = ['Thấp', 'Trung bình', 'Cao', 'Khẩn cấp'];
+const prioritySlaHours = { 'Thấp': 24, 'Trung bình': 8, 'Cao': 4, 'Khẩn cấp': 1 };
 
 const initialUsers = [
   { id: 'admin', user_code: 'admin', full_name: 'Nguyễn Quản Trị', email: 'admin@a4.edu.vn', role: 'admin', status: 'active', password: 'admin123', skills: [] },
@@ -183,6 +185,22 @@ export function saveCategory(name) {
   });
 }
 
+export function renameCategory(oldName, nextName) {
+  const category = nextName.trim();
+  if (!category) throw new Error('Vui lòng nhập tên chuyên môn.');
+  if (oldName === category) return;
+  return mutateData(data => {
+    if (data.categories.some(item => item !== oldName && item.toLocaleLowerCase() === category.toLocaleLowerCase())) {
+      throw new Error('Chuyên môn này đã tồn tại.');
+    }
+    if (!data.categories.includes(oldName)) throw new Error('Không tìm thấy chuyên môn cần sửa.');
+    data.categories = data.categories.map(item => item === oldName ? category : item);
+    data.tickets = data.tickets.map(ticket => ticket.category === oldName ? { ...ticket, category } : ticket);
+    data.users = data.users.map(user => ({ ...user, skills: (user.skills || []).map(skill => skill === oldName ? category : skill) }));
+    return data;
+  });
+}
+
 export function deleteCategory(name) {
   return mutateData(data => {
     if (data.tickets.some(ticket => ticket.category === name)) throw new Error('Không thể xóa loại sự cố đang được phiếu sử dụng.');
@@ -212,12 +230,13 @@ export function createTicket(payload, actor) {
     const assignee = [...pool].sort((a, b) => load(a) - load(b))[0];
     const now = new Date().toISOString();
     created = {
-      ...payload, id, status: 'Mới tiếp nhận', requester: actor.full_name, requesterId: actor.id,
+      ...payload, id, priority: null, status: 'Mới tiếp nhận', requester: actor.full_name, requesterId: actor.id,
       technician: assignee?.full_name || 'Chưa phân công', technicianId: assignee?.id || null,
-      createdAt: now, slaAt: new Date(Date.now() + ({ 'Thấp': 24, 'Trung bình': 8, 'Cao': 4, 'Khẩn cấp': 1 }[payload.priority] || 8) * 60 * 60_000).toISOString(),
+      createdAt: now, slaAt: null,
       startedAt: null, resolvedAt: null, resolution: null,
       history: [
         ...(assignee ? [{ id: `${id}-assigned`, type: 'assigned', label: `Tự động phân công cho ${assignee.full_name}`, actor: 'Hệ thống', createdAt: now }] : []),
+        { id: `${id}-priority-pending`, type: 'priority-pending', label: 'Phiếu chờ admin duyệt mức độ ưu tiên', actor: 'Hệ thống', createdAt: now },
         { id: `${id}-created`, type: 'created', label: 'Tạo phiếu sự cố', actor: actor.full_name, createdAt: now }
       ]
     };
@@ -237,6 +256,28 @@ export function updateTicket(ticketId, updater) {
     return data;
   });
   return updated;
+}
+
+export function updateTicketPriority(ticketId, priority, actorName = 'Quản trị viên') {
+  if (!priorityLevels.includes(priority)) throw new Error('Vui lòng chọn mức độ ưu tiên hợp lệ.');
+  return updateTicket(ticketId, ticket => {
+    const now = new Date().toISOString();
+    const slaHours = prioritySlaHours[priority];
+    const slaAt = new Date(new Date(ticket.createdAt).getTime() + slaHours * 60 * 60_000).toISOString();
+    return {
+      ...ticket,
+      priority,
+      slaAt,
+      priorityApprovedAt: now,
+      history: [{
+        id: `${ticket.id}-priority-${Date.now()}`,
+        type: 'priority-approved',
+        label: `Admin duyệt mức độ ưu tiên: ${priority}`,
+        actor: actorName,
+        createdAt: now
+      }, ...ticket.history]
+    };
+  });
 }
 
 export function assignTicket(ticketId, technicianId, actorName = 'Nguyễn Quản Trị') {
@@ -284,10 +325,6 @@ export function findAccount(identifier) {
   return readData().users.find(user => user.user_code.toLocaleLowerCase() === normalized || user.email.toLocaleLowerCase() === normalized);
 }
 
-export function getDemoAccounts() {
-  return initialUsers.map(({ user_code, full_name, role, password }) => ({ user_code, full_name, role, password }));
-}
-
 export function resetDemoData() {
   writeData(createInitialData());
 }
@@ -295,9 +332,9 @@ export function resetDemoData() {
 export function exportCsv(tickets) {
   const headers = ['Mã phiếu', 'Tiêu đề', 'Loại sự cố', 'Vị trí', 'Ưu tiên', 'Trạng thái', 'Người gửi', 'Kỹ thuật viên', 'Ngày tạo'];
   const fields = ['id', 'title', 'category', 'location', 'priority', 'status', 'requester', 'technician', 'createdAt'];
-  const csv = [headers, ...tickets.map(ticket => fields.map(field => ticket[field] ?? ''))]
+  const csv = [headers, ...tickets.map(ticket => fields.map(field => field === 'priority' ? ticket.priority || 'Chờ duyệt' : ticket[field] ?? ''))]
     .map(row => row.map(value => `"${String(value).replaceAll('"', '""')}"`).join(',')).join('\r\n');
   return `\uFEFF${csv}`;
 }
 
-export { categoryNames };
+export { categoryNames, priorityLevels };

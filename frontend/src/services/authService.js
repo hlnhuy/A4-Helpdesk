@@ -1,4 +1,4 @@
-import { clearSession, findAccount, getDemoAccounts, setSession } from './demoDataService.js';
+import { clearSession, findAccount, setSession } from './demoDataService.js';
 
 export async function login({ account, password }) {
   const user = findAccount(account);
@@ -20,4 +20,3 @@ export async function login({ account, password }) {
 }
 
 export function logout() { clearSession(); }
-export { getDemoAccounts };

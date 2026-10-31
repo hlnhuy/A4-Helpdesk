@@ -7,6 +7,7 @@ const tones = {
   'Cao': 'red',
   'Trung bình': 'blue',
   'Thấp': 'gray',
+  'Chờ duyệt': 'gray',
   'Hoạt động': 'green',
   'Đã khóa': 'gray',
   'Sẵn sàng': 'green',

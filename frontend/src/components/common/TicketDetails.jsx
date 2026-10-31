@@ -7,7 +7,7 @@ function formattedDate(value) {
 
 export default function TicketDetails({ ticket, actions }) {
   return <Panel className="ticket-info-card">
-    <div className="ticket-title-row"><h2>{ticket.title}</h2><div><StatusBadge value={ticket.status} /><StatusBadge value={ticket.priority} /></div></div>
+    <div className="ticket-title-row"><h2>{ticket.title}</h2><div><StatusBadge value={ticket.status} /><StatusBadge value={ticket.priority || 'Chờ duyệt'} /></div></div>
     <dl className="details-list">
       <dt>Loại sự cố</dt><dd>{ticket.category}</dd><dt>Vị trí</dt><dd>{ticket.location}</dd>
       <dt>Người gửi</dt><dd>{ticket.requester}</dd><dt>KTV phụ trách</dt><dd>{ticket.technician || 'Chưa phân công'}</dd>

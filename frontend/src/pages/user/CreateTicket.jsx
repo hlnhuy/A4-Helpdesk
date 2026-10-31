@@ -24,7 +24,7 @@ export default function CreateTicket() {
   const pageLocation = useLocation();
   const { user } = useAuth();
   const [categories] = useDemoData(getCategories);
-  const [form, setForm] = useState({ title: '', category: 'Wi-Fi', priority: 'Trung bình', location: new URLSearchParams(pageLocation.search).get('location') || '', description: '' });
+  const [form, setForm] = useState({ title: '', category: 'Wi-Fi', location: new URLSearchParams(pageLocation.search).get('location') || '', description: '' });
   const [file, setFile] = useState(null);
   const [error, setError] = useState('');
   const [saving, setSaving] = useState(false);
@@ -57,9 +57,6 @@ export default function CreateTicket() {
         </label>
         <label className="field">Loại sự cố *
           <select name="category" value={form.category} onChange={change} required>{categories.map(item => <option key={item}>{item}</option>)}</select>
-        </label>
-        <label className="field">Mức độ ưu tiên *
-          <select name="priority" value={form.priority} onChange={change}>{['Thấp','Trung bình','Cao','Khẩn cấp'].map(item => <option key={item}>{item}</option>)}</select>
         </label>
         <label className="field field-full">Vị trí xảy ra sự cố *
           <input name="location" value={form.location} onChange={change} required maxLength="100" placeholder="vd: A4-201" />

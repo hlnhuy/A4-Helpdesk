@@ -21,7 +21,6 @@ import CreateUser from '../pages/admin/CreateUser.jsx';
 import EditUser from '../pages/admin/EditUser.jsx';
 import Categories from '../pages/admin/Categories.jsx';
 import Reports from '../pages/admin/Reports.jsx';
-import QRPage from '../pages/admin/QRPage.jsx';
 import AdminProfile from '../pages/admin/Profile.jsx';
 import NotFound from '../pages/public/NotFound.jsx';
 
@@ -55,7 +54,6 @@ export default function AppRoutes() {
     <Route path="/admin/users/:userId/edit" element={<Protected roles={['admin']}><EditUser /></Protected>} />
     <Route path="/admin/categories" element={<Protected roles={['admin']}><Categories /></Protected>} />
     <Route path="/admin/reports" element={<Protected roles={['admin']}><Reports /></Protected>} />
-    <Route path="/admin/qr" element={<Protected roles={['admin']}><QRPage /></Protected>} />
     <Route path="/admin/profile" element={<Protected roles={['admin']}><AdminProfile /></Protected>} />
 
     <Route path="*" element={<NotFound />} />
@@ -66,5 +64,5 @@ export const routeGroups = {
   public: ['/welcome', '/login'],
   user: ['/user/dashboard', '/user/tickets', '/user/tickets/create', '/user/tickets/:ticketId', '/user/profile'],
   technician: ['/technician/dashboard', '/technician/tickets', '/technician/tickets/:ticketId', '/technician/profile'],
-  admin: ['/admin/dashboard', '/admin/tickets', '/admin/assignments', '/admin/users', '/admin/users/create', '/admin/categories', '/admin/reports', '/admin/qr', '/admin/profile']
+  admin: ['/admin/dashboard', '/admin/tickets', '/admin/assignments', '/admin/users', '/admin/users/create', '/admin/categories', '/admin/reports', '/admin/profile']
 };

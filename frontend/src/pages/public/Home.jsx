@@ -8,8 +8,8 @@ export default function Home() {
           <p className="landing-eyebrow">Hệ thống báo sự cố mạng — Trường A4</p>
           <h1>Báo sự cố mạng nhanh, kỹ thuật viên đến đúng người, đúng việc</h1>
           <p className="landing-description">
-            Quét mã QR, chọn loại sự cố, mức độ ưu tiên và vị trí. Hệ thống tự động giao
-            cho kỹ thuật viên phù hợp, ít việc nhất và theo dõi đến khi xử lý xong.
+            Quét mã QR, chọn loại sự cố và vị trí. Admin sẽ duyệt mức độ ưu tiên trước khi
+            kỹ thuật viên phù hợp tiếp nhận và xử lý.
           </p>
           <div className="landing-actions">
             <Link className="button button-primary" to="/login">Báo sự cố ngay</Link>
@@ -23,13 +23,13 @@ export default function Home() {
           <span className="step-number">1</span>
           <p>Quét mã QR bằng điện thoại</p>
         </article>
-        <article className="step-card" id="account-instructions">
+        <article className="step-card">
           <span className="step-number">2</span>
           <p>Đăng nhập (tài khoản do Admin cấp)</p>
         </article>
         <article className="step-card">
           <span className="step-number">3</span>
-          <p>Tạo phiếu: loại, ưu tiên, vị trí, mô tả</p>
+          <p>Tạo phiếu: loại, vị trí, mô tả</p>
         </article>
         <article className="step-card">
           <span className="step-number">4</span>
