@@ -5,11 +5,12 @@ import Panel from '../../components/common/Panel.jsx';
 import StatusBadge from '../../components/common/StatusBadge.jsx';
 import Notification from '../../components/common/Notification.jsx';
 import useDemoData from '../../hooks/useDemoData.js';
-import { approveAccount, declineAccount, getPendingAccounts, getUsers, resetUserPassword, setUserStatus } from '../../services/userService.js';
+import { approveAccount, declineAccount, getPasswordRequests, getPendingAccounts, getUsers, resetUserPassword, resolvePasswordRequest, setUserStatus } from '../../services/userService.js';
 
 export default function Users() {
   const [users] = useDemoData(getUsers);
   const [pending] = useDemoData(getPendingAccounts);
+  const [passwordRequests] = useDemoData(getPasswordRequests);
   const [query,setQuery]=useState('');
   const [role,setRole]=useState('');
   const [feedback,setFeedback]=useState({message:'',type:'success'});
@@ -24,6 +25,11 @@ export default function Users() {
       {pending.length ? <div className="table-scroll"><table className="data-table"><thead><tr><th>Họ tên</th><th>Email</th><th>Vai trò</th><th>Ghi chú</th><th>Gửi lúc</th><th>Thao tác</th></tr></thead><tbody>
         {pending.map(request=><tr key={request.id}><td><strong>{request.full_name}</strong></td><td>{request.email}</td><td>{request.role}</td><td>{request.note}</td><td>{new Date(request.createdAt).toLocaleString('vi-VN')}</td><td className="actions-cell"><button className="button button-approve" onClick={()=>act(()=>approveAccount(request.id),account=>`Đã cấp tài khoản ${account.user_code}; mật khẩu ban đầu: welcome123.`)}>Duyệt &amp; cấp</button><button className="button button-danger" onClick={()=>act(()=>declineAccount(request.id),'Đã từ chối yêu cầu.')}>Từ chối</button></td></tr>)}
       </tbody></table></div>:<p>Không còn yêu cầu cấp tài khoản.</p>}
+    </Panel>
+    <Panel className="table-card"><h2>Yêu cầu đặt lại mật khẩu ({passwordRequests.length})</h2>
+      {passwordRequests.length ? <div className="table-scroll"><table className="data-table"><thead><tr><th>Tài khoản</th><th>Email</th><th>Gửi lúc</th><th>Thao tác</th></tr></thead><tbody>
+        {passwordRequests.map(request=><tr key={request.id}><td><strong>{request.full_name}</strong> ({request.user_code})</td><td>{request.email}</td><td>{new Date(request.createdAt).toLocaleString('vi-VN')}</td><td className="actions-cell"><button className="button button-approve" onClick={()=>act(()=>resolvePasswordRequest(request.id),'Đã đặt lại mật khẩu thành welcome123. Người dùng sẽ được yêu cầu đổi mật khẩu khi đăng nhập.')}>Duyệt &amp; đặt lại</button></td></tr>)}
+      </tbody></table></div> : <p>Không có yêu cầu đặt lại mật khẩu.</p>}
     </Panel>
     <Panel className="table-card"><div className="toolbar">
       <input aria-label="Tìm tài khoản" placeholder="🔍 Tìm tên, mã, email..." value={query} onChange={event=>setQuery(event.target.value)}/>

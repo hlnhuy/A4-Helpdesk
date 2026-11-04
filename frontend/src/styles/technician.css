@@ -1,10 +1,22 @@
 .technician-layout { min-width: 0; }
-.availability { display: flex; flex-direction: column; justify-content: center; gap: 2px; margin: 0; padding: 12px 14px; }
+.availability { display: flex; flex-direction: column; align-items: flex-start; justify-content: center; gap: 5px; margin: 0; padding: 12px 14px; }
 .availability > span { color: #798397; font-size: 10px; font-weight: 600; }
-.availability strong { font-size: 22px; white-space: nowrap; }
-.availability strong i { display: inline-block; width: 23px; height: 23px; border-radius: 50%; vertical-align: -2px; background: #78ba3c; }
-.availability a { color: #3477db; font-size: 11px; text-decoration: none; }
+.availability strong { font-size: 17px; white-space: nowrap; }
+.availability strong i { display: inline-block; width: 15px; height: 15px; border-radius: 50%; vertical-align: -2px; background: #98a2b3; }
+.availability.checked-in strong i { background: #78ba3c; }
+.availability.checked-out strong i { background: #f79009; }
+.availability .button { min-height: 27px; padding: 0 9px; font-size: 10px; }
+
+.face-check-backdrop { position: fixed; inset: 0; z-index: 20; display: grid; place-items: center; padding: 16px; background: rgba(15, 23, 42, .62); }
+.face-check-modal { width: min(460px, 100%); display: grid; gap: 12px; padding: 20px; border-radius: 14px; background: #fff; box-shadow: 0 18px 50px rgba(0, 0, 0, .24); }
+.face-check-modal h2 { margin: 0; font-size: 16px; }
+.face-check-modal > p { margin: 0; color: #667085; font-size: 12px; }
+.face-check-modal video { width: 100%; max-height: 320px; border-radius: 10px; background: #101828; object-fit: cover; }
+.face-check-modal .face-check-captured { color: #187b3c; font-weight: 700; }
+.face-check-modal > small { color: #667085; font-size: 10px; line-height: 1.5; }
+.face-check-actions { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 8px; }
 
 @media (max-width: 720px) {
-  .availability strong { font-size: 18px; }
+  .availability strong { font-size: 15px; }
+  .face-check-modal { padding: 16px; }
 }

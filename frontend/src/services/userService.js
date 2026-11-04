@@ -1,3 +1,3 @@
-import { approveAccount, declineAccount, getPendingAccounts, getUsers, resetUserPassword, saveUser, setUserStatus, updateTechnicianSkills } from './demoDataService.js';
+import { approveAccount, changePassword, declineAccount, getPasswordRequests, getPendingAccounts, getUsers, requestAccount, requestPasswordReset, resetUserPassword, resolvePasswordRequest, saveUser, setUserStatus, updateTechnicianAttendance, updateTechnicianSkills } from './demoDataService.js';
 
-export { approveAccount, declineAccount, getPendingAccounts, getUsers, resetUserPassword, saveUser, setUserStatus, updateTechnicianSkills };
+export { approveAccount, changePassword, declineAccount, getPasswordRequests, getPendingAccounts, getUsers, requestAccount, requestPasswordReset, resetUserPassword, resolvePasswordRequest, saveUser, setUserStatus, updateTechnicianAttendance, updateTechnicianSkills };

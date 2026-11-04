@@ -11,7 +11,8 @@ export default function Dashboard() {
   const states = ['Mới tiếp nhận', 'Đang xử lý', 'Đã giải quyết', 'Đã đóng'];
   const values = states.map(status => tickets.filter(ticket => ticket.status === status).length);
   const recent = tickets.slice(0, 3);
-  const overdue = tickets.filter(ticket => !['Đã giải quyết', 'Đã đóng'].includes(ticket.status) && new Date(ticket.slaAt) < new Date()).length;
+  const awaitingReview = tickets.filter(ticket => !ticket.priority && ticket.status === 'Mới tiếp nhận');
+  const overdue = tickets.filter(ticket => ticket.slaAt && !['Đã giải quyết', 'Đã đóng'].includes(ticket.status) && new Date(ticket.slaAt) < new Date()).length;
 
   return <RoleLayout role="admin" title="Dashboard quản trị">
     <div className="metric-grid admin-metrics">
@@ -21,6 +22,10 @@ export default function Dashboard() {
       <MetricCard label="Đã giải quyết / đóng" value={values[2] + values[3]} icon="✓" tone="purple"/>
       <MetricCard label="Quá hạn SLA" value={overdue} note="phiếu đang mở" icon="!" tone="red"/>
     </div>
+    {awaitingReview.length > 0 && <Panel className="table-card admin-recent-panel">
+      <div className="panel-heading-row"><h2><span className="dashboard-panel-icon">!</span>Phiếu mới chờ duyệt ({awaitingReview.length})</h2><Link to="/admin/tickets">Mở quản lý phiếu →</Link></div>
+      <TicketTable tickets={awaitingReview} linkPrefix="/admin/tickets"/>
+    </Panel>}
     <Panel className="table-card admin-recent-panel">
       <div className="panel-heading-row"><h2><span className="dashboard-panel-icon">▤</span>Phiếu mới nhất</h2><Link to="/admin/tickets">Xem tất cả →</Link></div>
       <TicketTable tickets={recent} linkPrefix="/admin/tickets" showTechnician/>

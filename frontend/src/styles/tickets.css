@@ -40,6 +40,27 @@
 .ticket-filters input, .ticket-filters select { min-width: 165px; min-height: 34px; padding: 7px 9px; border: 1px solid #d5deec; border-radius: 8px; background: #fff; font-size: 11px; }
 .timeline-row { display: contents; }
 .profile-panel { max-width: 700px; }
+.ticket-feedback-actions { display: grid; gap: 10px; margin-top: 16px; padding-top: 14px; border-top: 1px solid #e9ebf0; }
+.ticket-feedback-actions .field select, .ticket-feedback-actions .field textarea { min-height: 35px; padding: 8px 10px; border: 1px solid #d5deec; border-radius: 8px; background: #fff; font: inherit; }
+.feedback-buttons { display: flex; flex-wrap: wrap; gap: 8px; }
+.review-stars { color: #f59e0b; }
+.review-stars strong { color: #475467; }
+.ticket-conversation h3 { margin-bottom: 12px; }
+.conversation-messages { display: grid; gap: 9px; }
+.conversation-messages > .muted { margin: 0; }
+.conversation-message { width: fit-content; max-width: min(90%, 460px); display: grid; gap: 4px; padding: 9px 11px; border-radius: 10px 10px 10px 3px; background: #f1f5fb; }
+.conversation-message.own { justify-self: end; border-radius: 10px 10px 3px 10px; background: #e4efff; }
+.conversation-message > strong { font-size: 10px; }
+.conversation-message > strong small, .conversation-message time { color: #8190a6; font-size: 9px; font-weight: 400; }
+.conversation-message p { margin: 0; font-size: 11px; line-height: 1.45; white-space: pre-wrap; overflow-wrap: anywhere; }
+.ticket-status-guidance { margin: 12px 0 0; padding: 10px 13px; border-color: #d7e5fb; background: #f3f7ff; color: #35527c; font-size: 11px; line-height: 1.5; }
+.conversation-form { display: flex; align-items: center; flex-wrap: wrap; gap: 7px; margin-top: 12px; }
+.conversation-form input { flex: 1; min-width: 0; min-height: 35px; padding: 7px 10px; border: 1px solid #d5deec; border-radius: 8px; }
+.conversation-form .button { min-height: 35px; }
+.conversation-form .conversation-attachment-button { position: relative; min-height: 35px; display: inline-flex; align-items: center; padding: 0 10px; border: 1px solid #d5deec; border-radius: 8px; color: #465777; background: #fff; font-size: 11px; font-weight: 650; cursor: pointer; }
+.conversation-attachment-button input { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; clip-path: inset(50%); }
+.conversation-attachment-name { margin: 7px 0 0; color: #66748b; font-size: 10px; overflow-wrap: anywhere; }
+.conversation-attachment-name .text-button { margin-left: 5px; font-size: 10px; }
 
 @media (max-width: 720px) {
   .detail-grid { grid-template-columns: 1fr; gap: 0; }

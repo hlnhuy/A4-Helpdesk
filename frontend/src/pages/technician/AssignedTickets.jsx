@@ -15,7 +15,7 @@ export default function AssignedTickets() {
   const [query, setQuery] = useState('');
   const [status, setStatus] = useState(new URLSearchParams(location.search).get('status') || '');
   const [category, setCategory] = useState('');
-  const filtered = useMemo(() => tickets.filter(ticket => ticket.technicianId === user.id)
+  const filtered = useMemo(() => tickets.filter(ticket => ticket.technicianId === user.id || ticket.assistantTechnicianId === user.id)
     .filter(ticket => !status || ticket.status === status)
     .filter(ticket => !category || ticket.category === category)
     .filter(ticket => `${ticket.id} ${ticket.title} ${ticket.location}`.toLowerCase().includes(query.toLowerCase())), [tickets,user.id,status,category,query]);

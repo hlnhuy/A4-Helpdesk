@@ -20,9 +20,9 @@ export default function AdminTicketTable({ tickets, page, pageSize, onPageChange
           <td><Link to={`/admin/tickets/${ticket.id}`}><strong>{ticket.id}</strong></Link></td>
           <td><strong className="ticket-row-title">{ticket.title}</strong><small className="table-secondary">{ticket.location}</small></td>
           <td><span className="table-category"><span aria-hidden="true">{ticket.category === 'Wi-Fi' ? '◉' : ticket.category === 'Internet' ? '⌁' : '▦'}</span>{ticket.category}</span></td>
-          <td><StatusBadge value={ticket.priority || 'Chờ duyệt'}/></td>
+          <td><StatusBadge value={ticket.priority || 'Chưa duyệt'}/></td>
           <td><StatusBadge value={ticket.status}/></td>
-          <td><span className="table-person">♙ {ticket.technician || 'Chưa phân công'}</span></td>
+          <td><span className="table-person">♙ {ticket.technician || 'Chưa phân công'}{ticket.assistantTechnician && <small className="table-secondary">Hỗ trợ: {ticket.assistantTechnician}</small>}</span></td>
           <td><span className="table-person">♧ {ticket.requester}</span></td>
           <td className="ticket-created-at">{formatCreatedAt(ticket.createdAt)}</td>
           <td className="ticket-action-cell"><Link className="ticket-view-button" aria-label={`Xem phiếu ${ticket.id}`} to={`/admin/tickets/${ticket.id}`}>◉</Link><details className="ticket-action-menu"><summary aria-label={`Thao tác ${ticket.id}`}>⋮</summary><Link to={`/admin/tickets/${ticket.id}`}>Xem chi tiết</Link><Link to={`/admin/assignments?ticket=${encodeURIComponent(ticket.id)}`}>Phân công</Link></details></td>

@@ -1,4 +1,5 @@
 .metric-grid { display: grid; grid-template-columns: repeat(5, minmax(0,1fr)); gap: 9px; margin-bottom: 16px; }
+.tech-metrics { grid-template-columns: repeat(4, minmax(0,1fr)); }
 .metric-card { min-height: 91px; display: flex; flex-direction: column; justify-content: center; gap: 6px; margin: 0; padding: 12px 14px; }
 .metric-card > span { color: #798397; font-size: 10px; font-weight: 600; }
 .metric-card strong { color: #151d2f; font-size: 25px; line-height: 1; }
@@ -46,15 +47,15 @@
 .activity-list { display: grid; gap: 0; margin: 0; padding: 0; list-style: none; color: #626d7e; font-size: 10px; }
 .activity-list li { padding: 7px 0; border-bottom: 1px solid #f0f1f5; }
 .activity-list li:last-child { border: 0; }
-.report-metrics { grid-template-columns: repeat(5,minmax(0,1fr)); gap: 8px; }
+.report-metrics { grid-template-columns: repeat(6,minmax(0,1fr)); gap: 8px; }
 .report-metrics .metric-card { min-height: 58px; padding: 9px; }
 .report-metrics .metric-card strong { font-size: 19px; }
-.report-metrics .metric-card:nth-child(6) { grid-column: 1; }
 .report-charts .panel { min-height: 165px; }
 .report-charts .chart-legend { min-height: 110px; gap: 18px; }
 
 @media (max-width: 1050px) {
   .admin-metrics, .tech-metrics { grid-template-columns: repeat(3,minmax(0,1fr)); }
+  .report-metrics { grid-template-columns: repeat(3,minmax(0,1fr)); }
 }
 @media (max-width: 720px) {
   .dashboard-grid, .two-column { grid-template-columns: 1fr; }

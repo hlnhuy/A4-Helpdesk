@@ -10,6 +10,34 @@ import { exportCsv, getTickets } from '../../services/demoDataService.js';
 import { getCategories } from '../../services/categoryService.js';
 import { getUsers } from '../../services/userService.js';
 
+function averageMinutes(items, getStart, getEnd) {
+  const durations = items.flatMap(ticket => {
+    const start = getStart(ticket);
+    const end = getEnd(ticket);
+    if (!start || !end) return [];
+    const duration = (new Date(end).getTime() - new Date(start).getTime()) / 60_000;
+    return Number.isFinite(duration) && duration >= 0 ? [duration] : [];
+  });
+  return durations.length ? durations.reduce((sum, duration) => sum + duration, 0) / durations.length : null;
+}
+
+function formatDuration(minutes) {
+  if (minutes === null) return 'Chưa có dữ liệu';
+  if (minutes < 1) return '< 1 phút';
+  const totalMinutes = Math.round(minutes);
+  if (totalMinutes < 60) return `${totalMinutes} phút`;
+  const hours = Math.floor(totalMinutes / 60);
+  const remainingMinutes = totalMinutes % 60;
+  return remainingMinutes ? `${hours} giờ ${remainingMinutes} phút` : `${hours} giờ`;
+}
+
+function firstAssignmentAt(ticket) {
+  return (ticket.history || [])
+    .filter(event => event.type === 'assigned')
+    .map(event => event.createdAt)
+    .sort()[0] || null;
+}
+
 export default function Reports() {
   const [tickets]=useDemoData(getTickets);
   const [categories]=useDemoData(getCategories);
@@ -23,7 +51,7 @@ export default function Reports() {
     .filter(ticket=>!to||ticket.createdAt.slice(0,10)<=to)
     .filter(ticket=>!category||ticket.category===category)
     .filter(ticket=>!status||ticket.status===status)
-    .filter(ticket=>!technician||ticket.technicianId===technician),[tickets,from,to,category,status,technician]);
+    .filter(ticket=>!technician||ticket.technicianId===technician||ticket.assistantTechnicianId===technician),[tickets,from,to,category,status,technician]);
   const statusNames=['Mới tiếp nhận','Đang xử lý','Đã giải quyết','Đã đóng'];
   const statuses=statusNames.map(name=>filtered.filter(ticket=>ticket.status===name).length);
   const techs=users.filter(user=>user.role==='technician');
@@ -35,7 +63,10 @@ export default function Reports() {
     URL.revokeObjectURL(url);
   }
   function reset() {setFrom('');setTo('');setCategory('');setStatus('');setTechnician('');}
-  const overdue=filtered.filter(ticket=>!['Đã giải quyết','Đã đóng'].includes(ticket.status)&&new Date(ticket.slaAt)<new Date()).length;
+  const overdue=filtered.filter(ticket=>ticket.slaAt&&!['Đã giải quyết','Đã đóng'].includes(ticket.status)&&new Date(ticket.slaAt)<new Date()).length;
+  const averageAssignment = averageMinutes(filtered, ticket => ticket.createdAt, firstAssignmentAt);
+  const averageResponse = averageMinutes(filtered, ticket => ticket.createdAt, ticket => ticket.startedAt);
+  const averageResolution = averageMinutes(filtered, ticket => ticket.startedAt, ticket => ticket.resolvedAt);
   return <RoleLayout role="admin" title="Báo cáo & thống kê">
     <Panel className="report-filters">
       <div><label>Từ <input type="date" value={from} onChange={event=>setFrom(event.target.value)}/></label>
@@ -47,15 +78,15 @@ export default function Reports() {
       </div>
       <div><button className="button button-secondary" onClick={downloadCsv}>Xuất CSV</button><button className="button button-secondary" onClick={()=>window.print()}>In báo cáo</button></div>
     </Panel>
-    <div className="metric-grid report-metrics"><MetricCard label="Tổng số phiếu" value={filtered.length}/><MetricCard label="Chờ phân công TB" value="2 phút"/><MetricCard label="Phản hồi TB" value="45 phút"/><MetricCard label="Xử lý TB" value="1 giờ 56 phút"/><MetricCard label="Quá hạn SLA" value={overdue}/><MetricCard label="Hài lòng TB" value="4.0 / 5"/></div>
+    <div className="metric-grid report-metrics"><MetricCard label="Tổng số phiếu" value={filtered.length}/><MetricCard label="Chờ phân công TB" value={formatDuration(averageAssignment)}/><MetricCard label="Phản hồi TB" value={formatDuration(averageResponse)}/><MetricCard label="Xử lý TB" value={formatDuration(averageResolution)}/><MetricCard label="Quá hạn SLA" value={overdue}/><MetricCard label="Phiếu đang mở" value={filtered.filter(ticket=>['Mới tiếp nhận','Đang xử lý'].includes(ticket.status)).length}/></div>
     <div className="dashboard-grid report-charts">
       <Panel><h2>Tổng số phiếu theo trạng thái</h2><div className="chart-legend"><DonutChart total={filtered.length} values={statuses}/><ul>{statusNames.map((name,index)=><li key={name}><i className={['legend-blue','legend-orange','legend-green','legend-gray'][index]}/>{name}: <b>{statuses[index]}</b></li>)}</ul></div></Panel>
       <Panel><h2>Phiếu theo loại sự cố</h2><BarList rows={categories.map(name=>[name,filtered.filter(ticket=>ticket.category===name).length])}/></Panel>
       <Panel><h2>Phiếu theo ngày</h2><div className="simple-bars">{Array.from({length:14},(_,index)=>{const day=new Date();day.setDate(day.getDate()-(13-index));const count=filtered.filter(ticket=>new Date(ticket.createdAt).toDateString()===day.toDateString()).length;return <div key={index}><strong>{count}</strong><i style={{height:`${Math.max(3,count*12)}px`}}/><small>{day.toLocaleDateString('vi-VN',{day:'2-digit',month:'2-digit'})}</small></div>;})}</div></Panel>
-      <Panel><h2>Số phiếu đã giải quyết theo KTV</h2><BarList rows={techs.map(tech=>[tech.full_name,filtered.filter(ticket=>ticket.technicianId===tech.id&&['Đã giải quyết','Đã đóng'].includes(ticket.status)).length])}/></Panel>
+      <Panel><h2>Số phiếu đã giải quyết theo KTV</h2><BarList rows={techs.map(tech=>[tech.full_name,filtered.filter(ticket=>(ticket.technicianId===tech.id||ticket.assistantTechnicianId===tech.id)&&['Đã giải quyết','Đã đóng'].includes(ticket.status)).length])}/></Panel>
     </div>
     <Panel className="table-card"><h2>Hiệu suất kỹ thuật viên</h2><div className="table-scroll"><table className="data-table"><thead><tr><th>KTV</th><th>Đang phụ trách</th><th>Đã giải quyết</th><th>Phản hồi TB</th><th>Xử lý TB</th></tr></thead><tbody>
-      {techs.map(tech=><tr key={tech.id}><td>{tech.full_name}</td><td>{filtered.filter(ticket=>ticket.technicianId===tech.id&&ticket.status==='Đang xử lý').length}</td><td>{filtered.filter(ticket=>ticket.technicianId===tech.id&&['Đã giải quyết','Đã đóng'].includes(ticket.status)).length}</td><td>45 phút</td><td>1 giờ 56 phút</td></tr>)}
+      {techs.map(tech=>{const assigned=filtered.filter(ticket=>ticket.technicianId===tech.id||ticket.assistantTechnicianId===tech.id);const completed=assigned.filter(ticket=>['Đã giải quyết','Đã đóng'].includes(ticket.status));return <tr key={tech.id}><td>{tech.full_name}</td><td>{assigned.filter(ticket=>['Mới tiếp nhận','Đang xử lý'].includes(ticket.status)).length}</td><td>{completed.length}</td><td>{formatDuration(averageMinutes(assigned,ticket=>ticket.createdAt,ticket=>ticket.startedAt))}</td><td>{formatDuration(averageMinutes(completed,ticket=>ticket.startedAt,ticket=>ticket.resolvedAt))}</td></tr>;})}
     </tbody></table></div></Panel>
     <Panel className="table-card"><h2>Chi tiết phiếu ({filtered.length})</h2><TicketTable tickets={filtered} linkPrefix="/admin/tickets" showTechnician/></Panel>
   </RoleLayout>;

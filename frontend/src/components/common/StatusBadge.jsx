@@ -7,11 +7,13 @@ const tones = {
   'Cao': 'red',
   'Trung bình': 'blue',
   'Thấp': 'gray',
-  'Chờ duyệt': 'gray',
+  'Chưa duyệt': 'gray',
   'Hoạt động': 'green',
   'Đã khóa': 'gray',
   'Sẵn sàng': 'green',
-  'Bận': 'orange'
+  'Bận': 'orange',
+  'Đã Check in': 'green',
+  'Đã Check out': 'gray'
 };
 
 export default function StatusBadge({ children, value = children }) {

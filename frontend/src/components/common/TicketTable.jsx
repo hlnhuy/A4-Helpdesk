@@ -7,8 +7,8 @@ export default function TicketTable({ tickets, linkPrefix, showTechnician = fals
     <tbody>{tickets.map(ticket => <tr key={ticket.id}>
       <td><Link to={`${linkPrefix}/${ticket.id}`}><strong>{ticket.id}</strong></Link></td>
       <td>{ticket.title}<small className="table-secondary">{ticket.location}</small></td>
-      <td>{ticket.category}</td><td><StatusBadge value={ticket.priority || 'Chờ duyệt'} /></td><td><StatusBadge value={ticket.status} /></td>
-      {showTechnician && <td>{ticket.technician || 'Chưa phân công'}</td>}
+      <td>{ticket.category}</td><td><StatusBadge value={ticket.priority || 'Chưa duyệt'} /></td><td><StatusBadge value={ticket.status} /></td>
+      {showTechnician && <td>{ticket.technician || 'Chưa phân công'}{ticket.assistantTechnician && <small className="table-secondary">Hỗ trợ: {ticket.assistantTechnician}</small>}</td>}
       <td>{ticket.requester}</td><td>{new Date(ticket.createdAt).toLocaleString('vi-VN')}</td>
     </tr>)}</tbody>
   </table></div>;

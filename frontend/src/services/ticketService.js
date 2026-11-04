@@ -1,3 +1,3 @@
-import { assignTicket, createTicket, getTicket, getTickets, priorityLevels, unassignTicket, updateTicket, updateTicketPriority } from './demoDataService.js';
+import { addTicketComment, assignTicket, assignTicketTeam, createTicket, getTicket, getTickets, priorityLevels, requestTicketReopen, reviewTicket, unassignTicket, updateTicket, updateTicketPriority } from './demoDataService.js';
 
-export { assignTicket, createTicket, getTicket, getTickets, priorityLevels, unassignTicket, updateTicket, updateTicketPriority };
+export { addTicketComment, assignTicket, assignTicketTeam, createTicket, getTicket, getTickets, priorityLevels, requestTicketReopen, reviewTicket, unassignTicket, updateTicket, updateTicketPriority };

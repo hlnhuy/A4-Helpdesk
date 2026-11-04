@@ -10,6 +10,8 @@ export default function Login() {
   const { login, isAuthenticated, user } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
+  const requestedPath = new URLSearchParams(location.search).get('next');
+  const destination = requestedPath?.startsWith(`/${user?.role}/`) ? requestedPath : `/${user?.role}/dashboard`;
 
   async function handleSubmit(event) {
     event.preventDefault();
@@ -17,8 +19,9 @@ export default function Login() {
     setLoading(true);
     try {
       const session = await login({ account, password });
-      const requestedPath = new URLSearchParams(location.search).get('next');
-      navigate(requestedPath?.startsWith(`/${session.role}/`) ? requestedPath : `/${session.role}/dashboard`, { replace: true });
+      navigate(session.mustChangePassword
+        ? `/${session.role}/profile`
+        : requestedPath?.startsWith(`/${session.role}/`) ? requestedPath : `/${session.role}/dashboard`, { replace: true });
     } catch (loginError) {
       setError(loginError.message);
     } finally {
@@ -26,7 +29,7 @@ export default function Login() {
     }
   }
 
-  if (isAuthenticated) return <Navigate to={`/${user.role}/dashboard`} replace />;
+  if (isAuthenticated) return <Navigate to={user.mustChangePassword ? `/${user.role}/profile` : destination} replace />;
 
   return (
     <section className="auth-card">
@@ -39,6 +42,7 @@ export default function Login() {
         {error && <p className="form-error" role="alert">{error}</p>}
         <button className="primary-button" type="submit" disabled={loading}>{loading ? 'Đang đăng nhập...' : 'Đăng nhập'}</button>
       </form>
+      <p className="muted small"><Link to="/forgot-password">Quên mật khẩu?</Link> · <Link to="/request-account">Yêu cầu cấp tài khoản</Link></p>
       <p className="muted small">Dữ liệu demo được lưu trên trình duyệt này. <Link to="/welcome">Trang giới thiệu</Link></p>
     </section>
   );

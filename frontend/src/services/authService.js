@@ -13,7 +13,8 @@ export async function login({ account, password }) {
     user_code: user.user_code,
     full_name: user.full_name,
     email: user.email,
-    role: user.role
+    role: user.role,
+    mustChangePassword: Boolean(user.mustChangePassword)
   };
   setSession(sessionUser);
   return sessionUser;
