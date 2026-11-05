@@ -14,7 +14,6 @@ const navigation = {
   technician: [
     ['📊', 'Dashboard', '/technician/dashboard'],
     ['🎫', 'Phiếu được giao', '/technician/tickets'],
-    ['▤', 'Bảng Kanban', '/technician/kanban'],
     ['◷', 'Lịch sử & thống kê', '/technician/tickets?status=Đã giải quyết'],
     ['❓', 'Hướng dẫn / FAQ', '/technician/help'],
     ['⚙', 'Hồ sơ', '/technician/profile']
@@ -22,14 +21,12 @@ const navigation = {
   admin: [
     ['📊', 'Dashboard', '/admin/dashboard'],
     ['🎫', 'Quản lý phiếu', '/admin/tickets'],
-    ['▤', 'Bảng Kanban', '/admin/kanban'],
     ['🔀', 'Phân công', '/admin/assignments'],
     ['👥', 'Tài khoản', '/admin/users'],
     ['⚒', 'Chuyên môn', '/admin/categories'],
     ['📈', 'Báo cáo & thống kê', '/admin/reports'],
     ['⚙', 'Cấu hình', '/admin/settings'],
-    ['❓', 'Hướng dẫn / FAQ', '/admin/help'],
-    ['⚙', 'Hồ sơ', '/admin/profile']
+    ['❓', 'Hướng dẫn / FAQ', '/admin/help']
   ]
 };
 

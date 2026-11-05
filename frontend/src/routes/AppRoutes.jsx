@@ -23,9 +23,7 @@ import CreateUser from '../pages/admin/CreateUser.jsx';
 import EditUser from '../pages/admin/EditUser.jsx';
 import Categories from '../pages/admin/Categories.jsx';
 import Reports from '../pages/admin/Reports.jsx';
-import AdminProfile from '../pages/admin/Profile.jsx';
 import AdminSettings from '../pages/admin/Settings.jsx';
-import TicketKanban from '../pages/common/TicketKanban.jsx';
 import Help from '../pages/common/Help.jsx';
 import NotFound from '../pages/public/NotFound.jsx';
 
@@ -49,14 +47,12 @@ export default function AppRoutes() {
     <Route path="/user/help" element={<Protected roles={['user']}><Help /></Protected>} />
 
     <Route path="/technician/dashboard" element={<Protected roles={['technician']}><TechnicianDashboard /></Protected>} />
-    <Route path="/technician/kanban" element={<Protected roles={['technician']}><TicketKanban role="technician" /></Protected>} />
     <Route path="/technician/help" element={<Protected roles={['technician']}><Help /></Protected>} />
     <Route path="/technician/tickets" element={<Protected roles={['technician']}><AssignedTickets /></Protected>} />
     <Route path="/technician/tickets/:ticketId" element={<Protected roles={['technician']}><TechnicianTicketDetail /></Protected>} />
     <Route path="/technician/profile" element={<Protected roles={['technician']}><TechnicianProfile /></Protected>} />
 
     <Route path="/admin/dashboard" element={<Protected roles={['admin']}><AdminDashboard /></Protected>} />
-    <Route path="/admin/kanban" element={<Protected roles={['admin']}><TicketKanban role="admin" /></Protected>} />
     <Route path="/admin/help" element={<Protected roles={['admin']}><Help /></Protected>} />
     <Route path="/admin/settings" element={<Protected roles={['admin']}><AdminSettings /></Protected>} />
     <Route path="/admin/tickets" element={<Protected roles={['admin']}><AdminTickets /></Protected>} />
@@ -67,7 +63,6 @@ export default function AppRoutes() {
     <Route path="/admin/users/:userId/edit" element={<Protected roles={['admin']}><EditUser /></Protected>} />
     <Route path="/admin/categories" element={<Protected roles={['admin']}><Categories /></Protected>} />
     <Route path="/admin/reports" element={<Protected roles={['admin']}><Reports /></Protected>} />
-    <Route path="/admin/profile" element={<Protected roles={['admin']}><AdminProfile /></Protected>} />
 
     <Route path="*" element={<NotFound />} />
   </Routes>;
@@ -76,6 +71,6 @@ export default function AppRoutes() {
 export const routeGroups = {
   public: ['/welcome', '/login', '/request-account', '/forgot-password'],
   user: ['/user/dashboard', '/user/tickets', '/user/tickets/create', '/user/tickets/:ticketId', '/user/profile', '/user/help'],
-  technician: ['/technician/dashboard', '/technician/kanban', '/technician/tickets', '/technician/tickets/:ticketId', '/technician/profile', '/technician/help'],
-  admin: ['/admin/dashboard', '/admin/kanban', '/admin/tickets', '/admin/assignments', '/admin/users', '/admin/users/create', '/admin/categories', '/admin/reports', '/admin/settings', '/admin/help', '/admin/profile']
+  technician: ['/technician/dashboard', '/technician/tickets', '/technician/tickets/:ticketId', '/technician/profile', '/technician/help'],
+  admin: ['/admin/dashboard', '/admin/tickets', '/admin/assignments', '/admin/users', '/admin/users/create', '/admin/categories', '/admin/reports', '/admin/settings', '/admin/help']
 };

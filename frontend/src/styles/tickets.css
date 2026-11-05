@@ -13,6 +13,7 @@
 .back-link { display: inline-block; color: #3775d3; font-size: 12px; text-decoration: none; }
 .detail-aside { display: grid; gap: 0; }
 .ticket-info-card { padding: 15px; }
+.ticket-list-title { margin: 0 0 12px; color: #17284e; font-size: 16px; }
 .ticket-title-row { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; margin-bottom: 21px; }
 .ticket-title-row h2 { margin: 0; font-size: 16px; }
 .ticket-title-row > div { display: flex; gap: 5px; }

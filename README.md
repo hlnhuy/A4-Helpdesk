@@ -76,7 +76,7 @@ Trang giới thiệu hiển thị một mã QR dùng chung, mở trang đăng nh
 
 Báo cáo tính thời gian chờ phân công, phản hồi và xử lý từ các mốc thời gian có trong dữ liệu. Kỹ thuật viên phải Check in/Check out bằng cách mở camera và chụp ảnh xác nhận; ảnh không được lưu và bản demo không nhận diện/xác minh danh tính. Chỉ KTV đã Check in mới được nhận phiếu hoặc bắt đầu/tiếp tục xử lý. Camera trên thiết bị khác cần website chạy trong secure context (HTTPS; localhost được trình duyệt cho phép). Đây vẫn là bản demo frontend: dữ liệu chỉ ở trình duyệt và chưa được xác thực, đồng bộ hoặc lưu qua backend.
 
-Giao diện demo có Kanban riêng cho Admin/KTV, trao đổi và đánh giá phiếu, yêu cầu xử lý lại, cấu hình SLA/gợi ý KTV, sao lưu/khôi phục JSON và kho FAQ. Dữ liệu sao lưu chứa thông tin đăng nhập demo; không chia sẻ tệp này công khai.
+Các ô thống kê trên Dashboard Admin mở danh sách phiếu tương ứng khi được chọn. Admin/KTV cập nhật phiếu từ danh sách hoặc trang chi tiết; giao diện demo cũng có trao đổi và đánh giá phiếu, yêu cầu xử lý lại, cấu hình SLA/gợi ý KTV, sao lưu/khôi phục JSON và kho FAQ. Dữ liệu sao lưu chứa thông tin đăng nhập demo; không chia sẻ tệp này công khai.
 
 ## Cơ sở dữ liệu
 

@@ -10,4 +10,4 @@ Mã QR dùng chung mở đăng nhập rồi chuyển đến biểu mẫu tạo p
 
 Kỹ thuật viên phải mở camera và chụp ảnh khuôn mặt để Check in khi bắt đầu ca, hoặc Check out khi nghỉ. Chỉ KTV đã Check in mới được nhận phiếu hoặc bắt đầu/tiếp tục xử lý. Bản demo không lưu ảnh và không xác minh danh tính bằng nhận diện khuôn mặt; camera cần HTTPS (hoặc localhost).
 
-Admin có thể theo dõi phiếu ở Kanban, cấu hình SLA và gợi ý KTV tự động (Admin vẫn xác nhận phân công bằng nút Lưu), sao lưu/khôi phục dữ liệu demo và quản lý kho FAQ. KTV cập nhật phiếu từ Kanban hoặc trang chi tiết; người gửi và KTV có thể trao đổi trong phiếu. Người gửi đánh giá/đóng phiếu đã giải quyết hoặc yêu cầu xử lý lại.
+Admin có thể chọn các ô thống kê trên Dashboard để mở danh sách phiếu tương ứng, cấu hình SLA và gợi ý KTV tự động (Admin vẫn xác nhận phân công bằng nút Lưu), sao lưu/khôi phục dữ liệu demo và quản lý kho FAQ. Admin/KTV cập nhật phiếu từ danh sách hoặc trang chi tiết; người gửi và KTV có thể trao đổi trong phiếu. Người gửi đánh giá/đóng phiếu đã giải quyết hoặc yêu cầu xử lý lại.

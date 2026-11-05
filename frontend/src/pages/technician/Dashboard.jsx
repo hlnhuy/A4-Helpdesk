@@ -32,9 +32,9 @@ export default function Dashboard() {
   return <RoleLayout role="technician" title="Bảng làm việc của tôi">
     <Notification message={error} type="error" />
     <div className="metric-grid tech-metrics">
-      <MetricCard label="Được giao" value={tickets.length} />
-      <MetricCard label="Đang xử lý" value={processing} />
-      <MetricCard label="Đã hoàn thành" value={completed} />
+      <MetricCard label="Được giao" value={tickets.length} to="/technician/tickets?section=assigned" />
+      <MetricCard label="Đang xử lý" value={processing} to="/technician/tickets?status=Đang%20xử%20lý" />
+      <MetricCard label="Đã hoàn thành" value={completed} to="/technician/tickets?status=Đã%20hoàn%20thành" />
       <Panel className={`availability ${checkedIn ? 'checked-in' : 'checked-out'}`}>
         <span>Tình trạng</span>
         <strong><i /> {checkedIn ? 'Đã Check in' : 'Chưa Check in'}</strong>

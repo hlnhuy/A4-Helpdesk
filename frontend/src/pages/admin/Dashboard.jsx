@@ -16,11 +16,11 @@ export default function Dashboard() {
 
   return <RoleLayout role="admin" title="Dashboard quản trị">
     <div className="metric-grid admin-metrics">
-      <MetricCard label="Tổng số phiếu" value={tickets.length} icon="▤" tone="blue"/>
-      <MetricCard label="Mới tiếp nhận" value={values[0]} icon="✉" tone="green"/>
-      <MetricCard label="Đang xử lý" value={values[1]} icon="⚙" tone="orange"/>
-      <MetricCard label="Đã giải quyết / đóng" value={values[2] + values[3]} icon="✓" tone="purple"/>
-      <MetricCard label="Quá hạn SLA" value={overdue} note="phiếu đang mở" icon="!" tone="red"/>
+      <MetricCard label="Tổng số phiếu" value={tickets.length} icon="▤" tone="blue" to="/admin/tickets?section=total"/>
+      <MetricCard label="Mới tiếp nhận" value={values[0]} icon="✉" tone="green" to="/admin/tickets?status=Mới%20tiếp%20nhận"/>
+      <MetricCard label="Đang xử lý" value={values[1]} icon="⚙" tone="orange" to="/admin/tickets?status=Đang%20xử%20lý"/>
+      <MetricCard label="Đã giải quyết / đóng" value={values[2] + values[3]} icon="✓" tone="purple" to="/admin/tickets?status=Đã%20giải%20quyết%20%2F%20đóng"/>
+      <MetricCard label="Quá hạn SLA" value={overdue} note="phiếu đang mở" icon="!" tone="red" to="/admin/tickets?status=Quá%20hạn%20SLA"/>
     </div>
     {awaitingReview.length > 0 && <Panel className="table-card admin-recent-panel">
       <div className="panel-heading-row"><h2><span className="dashboard-panel-icon">!</span>Phiếu mới chờ duyệt ({awaitingReview.length})</h2><Link to="/admin/tickets">Mở quản lý phiếu →</Link></div>
