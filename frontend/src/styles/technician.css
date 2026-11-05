@@ -1,11 +1,23 @@
 .technician-layout { min-width: 0; }
-.availability { display: flex; flex-direction: column; align-items: flex-start; justify-content: center; gap: 5px; margin: 0; padding: 12px 14px; }
-.availability > span { color: #798397; font-size: 10px; font-weight: 600; }
-.availability strong { font-size: 17px; white-space: nowrap; }
+.technician-attendance-grid { display: grid; grid-template-columns: minmax(0, 1.65fr) minmax(180px, .55fr); gap: 12px; align-items: start; margin-bottom: 16px; }
+.availability { display: flex; flex-direction: column; align-items: flex-start; justify-content: center; gap: 7px; min-height: 0; margin: 0; padding: 12px; border-radius: 8px; }
+.availability > span { color: #798397; font-size: 11px; font-weight: 600; }
+.availability strong { font-size: 18px; white-space: nowrap; }
 .availability strong i { display: inline-block; width: 15px; height: 15px; border-radius: 50%; vertical-align: -2px; background: #98a2b3; }
 .availability.checked-in strong i { background: #78ba3c; }
 .availability.checked-out strong i { background: #f79009; }
-.availability .button { min-height: 27px; padding: 0 9px; font-size: 10px; }
+.availability .button { min-height: 29px; padding: 0 10px; font-size: 11px; }
+.technician-profile-card { display: flex; align-items: center; gap: 20px; margin: 0; padding: 14px; border-radius: 13px; }
+.technician-profile-avatar { width: 130px; height: 172px; flex: 0 0 130px; border: 1px solid #21a6ae; border-radius: 8px; object-fit: cover; }
+.technician-profile-avatar-fallback { display: grid; place-items: center; color: white; background: linear-gradient(145deg, #358bf6, #315fe5); font-size: 34px; font-weight: 800; }
+.technician-profile-info { min-width: 0; width: 100%; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px 24px; }
+.technician-profile-field { min-width: 0; display: flex; flex-wrap: wrap; column-gap: 4px; font-size: 12px; line-height: 1.5; }
+.technician-profile-field strong { color: #526382; font-weight: 750; }
+.technician-profile-field span { min-width: 0; overflow-wrap: anywhere; color: #526382; }
+.technician-avatar-editor { display: grid; gap: 8px; }
+.technician-avatar-preview { display: flex; align-items: center; gap: 10px; }
+.technician-avatar-preview img { width: 68px; height: 68px; border-radius: 50%; object-fit: cover; }
+.technician-avatar-preview .button { min-height: 28px; }
 
 .face-check-backdrop { position: fixed; inset: 0; z-index: 20; display: grid; place-items: center; padding: 16px; background: rgba(15, 23, 42, .62); }
 .face-check-modal { width: min(460px, 100%); display: grid; gap: 12px; padding: 20px; border-radius: 14px; background: #fff; box-shadow: 0 18px 50px rgba(0, 0, 0, .24); }
@@ -17,6 +29,15 @@
 .face-check-actions { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 8px; }
 
 @media (max-width: 720px) {
+  .technician-attendance-grid { grid-template-columns: 1fr; }
+  .technician-profile-card { align-items: flex-start; }
+  .technician-profile-avatar { width: 108px; height: 144px; flex-basis: 108px; }
+  .technician-profile-info { gap: 10px 14px; }
   .availability strong { font-size: 15px; }
   .face-check-modal { padding: 16px; }
+}
+@media (max-width: 440px) {
+  .technician-profile-card { gap: 12px; padding: 12px; }
+  .technician-profile-avatar { width: 82px; height: 112px; flex-basis: 82px; }
+  .technician-profile-info { grid-template-columns: 1fr; gap: 6px; }
 }

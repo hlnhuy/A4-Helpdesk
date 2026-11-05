@@ -9,8 +9,9 @@ export default function ProtectedRoute({ children, roles }) {
   const account = getUsers().find(item => item.id === user.id);
   if (!account || account.status !== 'active') return <Navigate to="/login" replace />;
   if (roles && !roles.includes(user.role)) return <Navigate to={`/${user.role}/dashboard`} replace />;
-  if ((account.mustChangePassword || user.mustChangePassword) && location.pathname !== `/${user.role}/profile`) {
-    return <Navigate to={`/${user.role}/profile`} replace />;
+  const passwordChangePath = user.role === 'admin' ? '/admin/change-password' : `/${user.role}/profile`;
+  if ((account.mustChangePassword || user.mustChangePassword) && location.pathname !== passwordChangePath) {
+    return <Navigate to={passwordChangePath} replace />;
   }
   return children;
 }

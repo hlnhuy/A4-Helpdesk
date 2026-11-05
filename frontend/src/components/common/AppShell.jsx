@@ -14,8 +14,7 @@ const navigation = {
   technician: [
     ['📊', 'Dashboard', '/technician/dashboard'],
     ['🎫', 'Phiếu được giao', '/technician/tickets'],
-    ['◷', 'Lịch sử & thống kê', '/technician/tickets?status=Đã giải quyết'],
-    ['❓', 'Hướng dẫn / FAQ', '/technician/help'],
+    ['◷', 'Lịch sử & thống kê', '/technician/tickets?section=history'],
     ['⚙', 'Hồ sơ', '/technician/profile']
   ],
   admin: [
@@ -25,7 +24,6 @@ const navigation = {
     ['👥', 'Tài khoản', '/admin/users'],
     ['⚒', 'Chuyên môn', '/admin/categories'],
     ['📈', 'Báo cáo & thống kê', '/admin/reports'],
-    ['⚙', 'Cấu hình', '/admin/settings'],
     ['❓', 'Hướng dẫn / FAQ', '/admin/help']
   ]
 };

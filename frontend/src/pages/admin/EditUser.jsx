@@ -11,5 +11,5 @@ export default function EditUser() {
   const [users]=useDemoData(getUsers);
   const user=users.find(item=>item.id===userId);
   if(!user)return <RoleLayout role="admin" title="Không tìm thấy tài khoản"><Panel>Tài khoản không tồn tại.</Panel></RoleLayout>;
-  return <RoleLayout role="admin" title="Chỉnh sửa tài khoản"><Panel><UserForm initialUser={user} onSave={form=>{saveUser(form);navigate('/admin/users');}}/></Panel></RoleLayout>;
+  return <RoleLayout role="admin" title="Chỉnh sửa tài khoản"><Panel><UserForm key={user.id} initialUser={user} onSave={form=>{saveUser(form);navigate('/admin/users');}}/></Panel></RoleLayout>;
 }

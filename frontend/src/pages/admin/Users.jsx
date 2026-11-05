@@ -5,7 +5,7 @@ import Panel from '../../components/common/Panel.jsx';
 import StatusBadge from '../../components/common/StatusBadge.jsx';
 import Notification from '../../components/common/Notification.jsx';
 import useDemoData from '../../hooks/useDemoData.js';
-import { approveAccount, declineAccount, getPasswordRequests, getPendingAccounts, getUsers, resetUserPassword, resolvePasswordRequest, setUserStatus } from '../../services/userService.js';
+import { approveAccount, declineAccount, deleteUser, getPasswordRequests, getPendingAccounts, getUsers, resetUserPassword, resolvePasswordRequest, setUserStatus } from '../../services/userService.js';
 
 export default function Users() {
   const [users] = useDemoData(getUsers);
@@ -18,6 +18,10 @@ export default function Users() {
   function act(callback,success) {
     try { const result=callback();setFeedback({message:typeof success==='function'?success(result):success,type:'success'}); }
     catch(error) { setFeedback({message:error.message,type:'error'}); }
+  }
+  function removeAccount(account) {
+    if (!window.confirm(`Xóa tài khoản ${account.full_name} (${account.user_code})? Lịch sử phiếu sẽ được giữ lại; phiếu đang giao cho tài khoản này sẽ được bỏ phân công.`)) return;
+    act(() => deleteUser(account.id), 'Đã xóa tài khoản và giữ lại lịch sử phiếu.');
   }
   return <RoleLayout role="admin" title="Quản lý tài khoản">
     <Notification message={feedback.message} type={feedback.type}/>
@@ -38,8 +42,8 @@ export default function Users() {
     </div><div className="table-scroll"><table className="data-table"><thead><tr><th>Họ tên</th><th>Mã TK</th><th>Email</th><th>Vai trò</th><th>Chuyên môn</th><th>Trạng thái</th><th>Thao tác</th></tr></thead><tbody>
       {filtered.map(user=><tr key={user.id}><td><strong>{user.full_name}</strong></td><td>{user.user_code}</td><td>{user.email}</td><td>{user.role}</td><td>{user.skills?.join(', ')||'—'}</td><td><StatusBadge value={user.status==='active'?'Hoạt động':'Đã khóa'}/></td><td className="actions-cell">
         <Link className="button button-secondary" to={`/admin/users/${user.id}/edit`}>Sửa</Link>
-        <button className="button button-secondary" onClick={()=>act(()=>resetUserPassword(user.id),'Đã đặt lại mật khẩu thành welcome123.')}>Đặt lại MK</button>
-        {user.role!=='admin'&&<button className="button button-danger" onClick={()=>act(()=>setUserStatus(user.id,user.status==='active'?'locked':'active'),user.status==='active'?'Đã khóa tài khoản.':'Đã mở khóa tài khoản.')}>{user.status==='active'?'Khóa':'Mở khóa'}</button>}
+        <button className="button button-secondary" type="button" onClick={()=>act(()=>resetUserPassword(user.id),'Đã đặt lại mật khẩu thành welcome123. Tài khoản cần đổi mật khẩu sau khi đăng nhập.')}>Đặt lại MK</button>
+        {user.role!=='admin'&&<><button className="button button-danger" type="button" onClick={()=>act(()=>setUserStatus(user.id,user.status==='active'?'locked':'active'),user.status==='active'?'Đã khóa tài khoản.':'Đã mở khóa tài khoản.')}>{user.status==='active'?'Khóa':'Mở khóa'}</button><button className="button button-danger" type="button" onClick={()=>removeAccount(user)}>Xóa</button></>}
       </td></tr>)}
     </tbody></table></div>
     {!filtered.length&&<p>Không tìm thấy tài khoản phù hợp.</p>}</Panel>

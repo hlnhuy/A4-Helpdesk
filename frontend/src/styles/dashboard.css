@@ -1,5 +1,5 @@
 .metric-grid { display: grid; grid-template-columns: repeat(5, minmax(0,1fr)); gap: 9px; margin-bottom: 16px; }
-.tech-metrics { grid-template-columns: repeat(4, minmax(0,1fr)); }
+.technician-history-metrics { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 .metric-card { min-height: 91px; display: flex; flex-direction: column; justify-content: center; gap: 6px; margin: 0; padding: 12px 14px; }
 .metric-card > span { color: #798397; font-size: 10px; font-weight: 600; }
 .metric-card strong { color: #151d2f; font-size: 25px; line-height: 1; }
@@ -54,12 +54,13 @@
 .report-charts .chart-legend { min-height: 110px; gap: 18px; }
 
 @media (max-width: 1050px) {
-  .admin-metrics, .tech-metrics { grid-template-columns: repeat(3,minmax(0,1fr)); }
+  .admin-metrics { grid-template-columns: repeat(3,minmax(0,1fr)); }
   .report-metrics { grid-template-columns: repeat(3,minmax(0,1fr)); }
 }
 @media (max-width: 720px) {
   .dashboard-grid, .two-column { grid-template-columns: 1fr; }
-  .metric-grid, .admin-metrics, .tech-metrics, .report-metrics { grid-template-columns: repeat(2,minmax(0,1fr)); }
+  .metric-grid, .admin-metrics, .report-metrics { grid-template-columns: repeat(2,minmax(0,1fr)); }
+  .technician-history-metrics { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .metric-card { min-height: 75px; }
 }
 

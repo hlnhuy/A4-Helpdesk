@@ -3,7 +3,7 @@ import RoleSelector from './RoleSelector.jsx';
 import Notification from '../common/Notification.jsx';
 
 export default function UserForm({ initialUser, onSave }) {
-  const [form,setForm] = useState(initialUser || {full_name:'',user_code:'',email:'',role:'user',password:'welcome123',skills:[]});
+  const [form,setForm] = useState(() => initialUser ? { ...initialUser } : {full_name:'',user_code:'',email:'',role:'user',password:'welcome123',skills:[]});
   const [error,setError] = useState('');
   const [saving,setSaving] = useState(false);
   function change(event) { setForm(current=>({...current,[event.target.name]:event.target.value})); }

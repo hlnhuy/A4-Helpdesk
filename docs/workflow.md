@@ -8,6 +8,6 @@ Sau khi gửi, phiếu có mức ưu tiên “Chưa duyệt” và chưa đượ
 
 Mã QR dùng chung mở đăng nhập rồi chuyển đến biểu mẫu tạo phiếu; vị trí vẫn do người gửi nhập. Các báo cáo lấy thời gian từ các mốc được ghi trong dữ liệu demo.
 
-Kỹ thuật viên phải mở camera và chụp ảnh khuôn mặt để Check in khi bắt đầu ca, hoặc Check out khi nghỉ. Chỉ KTV đã Check in mới được nhận phiếu hoặc bắt đầu/tiếp tục xử lý. Bản demo không lưu ảnh và không xác minh danh tính bằng nhận diện khuôn mặt; camera cần HTTPS (hoặc localhost).
+Kỹ thuật viên có thể tải ảnh hồ sơ JPEG/PNG/WebP tối đa 1 MB lên trang hồ sơ; ảnh được lưu trong dữ liệu demo trên trình duyệt và hiển thị cùng thông tin KTV. Kỹ thuật viên phải mở camera và chụp ảnh khuôn mặt để Check in khi bắt đầu ca, hoặc Check out khi nghỉ. Ảnh chụp camera chỉ dùng xác nhận trong phiên và không được lưu; bản demo không xác minh danh tính bằng nhận diện khuôn mặt. Chỉ KTV đã Check in mới được nhận phiếu hoặc bắt đầu/tiếp tục xử lý; camera cần HTTPS (hoặc localhost).
 
-Admin có thể chọn các ô thống kê trên Dashboard để mở danh sách phiếu tương ứng, cấu hình SLA và gợi ý KTV tự động (Admin vẫn xác nhận phân công bằng nút Lưu), sao lưu/khôi phục dữ liệu demo và quản lý kho FAQ. Admin/KTV cập nhật phiếu từ danh sách hoặc trang chi tiết; người gửi và KTV có thể trao đổi trong phiếu. Người gửi đánh giá/đóng phiếu đã giải quyết hoặc yêu cầu xử lý lại.
+Admin có thể chọn các ô thống kê trên Dashboard để mở danh sách phiếu tương ứng và quản lý kho FAQ. Admin/KTV cập nhật phiếu từ danh sách hoặc trang chi tiết; người gửi và KTV có thể trao đổi trong phiếu. Người gửi đánh giá/đóng phiếu đã giải quyết hoặc yêu cầu xử lý lại.

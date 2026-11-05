@@ -6,7 +6,7 @@ Bộ khung ban đầu cho đề tài A4 – Hệ thống tiếp nhận và xử 
 
 - Frontend: React + Vite + HTML + CSS
 - Backend: Python + FastAPI
-- Database: MySQL
+- Database: SQL Server (SQLAlchemy + ODBC Driver 18)
 - Xác thực và phân quyền: Admin, Kỹ thuật viên, Người sử dụng
 - Quản lý mã nguồn: Git + GitHub
 
@@ -43,7 +43,7 @@ Bộ khung ban đầu cho đề tài A4 – Hệ thống tiếp nhận và xử 
 6. Khởi chạy API:
 
    ```bash
-   fastapi dev app/main.py
+   uvicorn app.main:app --reload --port 8000
    ```
 
 7. Mở `http://127.0.0.1:8000/docs` để xem tài liệu API.
@@ -70,27 +70,23 @@ Frontend hiện chạy bằng dữ liệu demo lưu trong `localStorage` của t
 | Kỹ thuật viên | `ktv1` | `ktv123` |
 | Người dùng | `user1` | `user123` |
 
-Tạo phiếu, cập nhật trạng thái, quản lý tài khoản/chuyên môn và báo cáo đều thao tác trên dữ liệu demo của trình duyệt. Người dùng không chọn mức độ ưu tiên; phiếu mới hiển thị “Chưa duyệt” và chưa được giao cho KTV. Admin duyệt mức ưu tiên, chọn KTV phụ trách đã Check in có chuyên môn phù hợp, có thể chọn thêm một KTV hỗ trợ thuộc bất kỳ chuyên môn nào, rồi bấm “Lưu” để giao phiếu. KTV đang xử lý công việc khác được đánh dấu “Bận” nhưng vẫn có thể được chọn hỗ trợ. Có thể bật gợi ý KTV tự động; hệ thống chọn sẵn người phụ trách nhưng Admin vẫn cần lưu phân công. Người dùng có thể gửi yêu cầu cấp tài khoản, yêu cầu đặt lại mật khẩu và đổi mật khẩu; yêu cầu được lưu trong dữ liệu demo để Admin xử lý. Xóa dữ liệu trang web trong trình duyệt sẽ khôi phục bộ dữ liệu mẫu ban đầu.
+Tạo phiếu, cập nhật trạng thái, quản lý tài khoản/chuyên môn và báo cáo đều thao tác trên dữ liệu demo của trình duyệt. Người dùng không chọn mức độ ưu tiên; phiếu mới hiển thị “Chưa duyệt” và chưa được giao cho KTV. Admin duyệt mức ưu tiên, chọn KTV phụ trách đã Check in có chuyên môn phù hợp, có thể chọn thêm một KTV hỗ trợ thuộc bất kỳ chuyên môn nào, rồi bấm “Lưu” để giao phiếu. KTV đang xử lý công việc khác được đánh dấu “Bận” nhưng vẫn có thể được chọn hỗ trợ. Hệ thống gợi ý KTV tự động; Admin vẫn cần lưu phân công. Người dùng có thể gửi yêu cầu cấp tài khoản, yêu cầu đặt lại mật khẩu và đổi mật khẩu; yêu cầu được lưu trong dữ liệu demo để Admin xử lý. Xóa dữ liệu trang web trong trình duyệt sẽ khôi phục bộ dữ liệu mẫu ban đầu.
 
 Trang giới thiệu hiển thị một mã QR dùng chung, mở trang đăng nhập rồi chuyển người dùng đến biểu mẫu tạo phiếu. Mã QR không tự điền vị trí.
 
-Báo cáo tính thời gian chờ phân công, phản hồi và xử lý từ các mốc thời gian có trong dữ liệu. Kỹ thuật viên phải Check in/Check out bằng cách mở camera và chụp ảnh xác nhận; ảnh không được lưu và bản demo không nhận diện/xác minh danh tính. Chỉ KTV đã Check in mới được nhận phiếu hoặc bắt đầu/tiếp tục xử lý. Camera trên thiết bị khác cần website chạy trong secure context (HTTPS; localhost được trình duyệt cho phép). Đây vẫn là bản demo frontend: dữ liệu chỉ ở trình duyệt và chưa được xác thực, đồng bộ hoặc lưu qua backend.
+Báo cáo tính thời gian chờ phân công, phản hồi và xử lý từ các mốc thời gian có trong dữ liệu. Kỹ thuật viên có thể tải ảnh hồ sơ JPEG/PNG/WebP tối đa 1 MB lên hồ sơ; ảnh được lưu trong dữ liệu demo trên trình duyệt. Check in/Check out yêu cầu mở camera và chụp ảnh xác nhận, nhưng ảnh chụp camera không được lưu và bản demo không nhận diện/xác minh danh tính. Chỉ KTV đã Check in mới được nhận phiếu hoặc bắt đầu/tiếp tục xử lý. Camera trên thiết bị khác cần website chạy trong secure context (HTTPS; localhost được trình duyệt cho phép). Đây vẫn là bản demo frontend: dữ liệu chỉ ở trình duyệt và chưa được xác thực, đồng bộ hoặc lưu qua backend.
 
-Các ô thống kê trên Dashboard Admin mở danh sách phiếu tương ứng khi được chọn. Admin/KTV cập nhật phiếu từ danh sách hoặc trang chi tiết; giao diện demo cũng có trao đổi và đánh giá phiếu, yêu cầu xử lý lại, cấu hình SLA/gợi ý KTV, sao lưu/khôi phục JSON và kho FAQ. Dữ liệu sao lưu chứa thông tin đăng nhập demo; không chia sẻ tệp này công khai.
+Các ô thống kê trên Dashboard Admin mở danh sách phiếu tương ứng khi được chọn. Admin/KTV cập nhật phiếu từ danh sách hoặc trang chi tiết; giao diện demo cũng có trao đổi và đánh giá phiếu, yêu cầu xử lý lại, gợi ý KTV và kho FAQ.
 
 ## Cơ sở dữ liệu
 
-1. Cài đặt và khởi động MySQL.
-2. Sử dụng phpMyAdmin hoặc MySQL Workbench để thực thi file `database/schema.sql`.
-3. Tạo file `.env` trong thư mục `backend` dựa trên `.env.example`.
-4. Cấu hình thông tin kết nối MySQL trong `.env`.
-5. Chỉ sử dụng dữ liệu mẫu trong giai đoạn phát triển.
+Backend dùng SQL Server Express và ODBC Driver 18. Hướng dẫn tạo database, cấu hình kết nối và nạp dữ liệu ban đầu nằm trong [database/README.md](./database/README.md). Cấu hình kết nối backend trong `backend/.env`.
 
 ## Cấu trúc
 
 - `frontend/`: giao diện React + Vite.
 - `backend/`: API và nghiệp vụ FastAPI.
-- `database/`: cấu trúc cơ sở dữ liệu và dữ liệu mẫu MySQL.
+- `database/`: schema và dữ liệu khởi tạo SQL Server.
 - `storage/`: nơi lưu tệp đính kèm và log.
 - `docs/`: tài liệu yêu cầu, thiết kế và hướng dẫn sử dụng.
 - `tests/`: các bài kiểm thử.
@@ -103,7 +99,7 @@ Admin cấp tài khoản, người sử dụng gửi phiếu, kỹ thuật viên
 
 ## Lưu ý
 
-- Đây là bộ khung phát triển ban đầu, chưa phải sản phẩm hoàn chỉnh.
-- Giao diện hiện chạy theo dữ liệu demo trong trình duyệt. Backend và MySQL vẫn là bộ khung, chưa được kết nối hoặc dùng để xác thực/lưu dữ liệu.
+- Giao diện hiện chạy theo dữ liệu demo trong trình duyệt và chưa kết nối với API backend.
+- Backend FastAPI lưu dữ liệu qua SQL Server; cấu hình backend riêng trước khi chạy.
 - Không đưa mật khẩu, API key, khóa bí mật hoặc dữ liệu cá nhân thật của nhà trường lên GitHub.
 - Việc kết nối dữ liệu thật của trường chỉ thực hiện khi được cấp quyền phù hợp.

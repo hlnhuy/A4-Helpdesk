@@ -13,7 +13,7 @@ const defaultFaqs = [
   { id: 'faq-account', category: 'Tài khoản', question: 'Quên mật khẩu tài khoản Helpdesk?', answer: 'Dùng chức năng Quên mật khẩu ở trang đăng nhập để gửi yêu cầu Admin hỗ trợ.' }
 ];
 const initialUsers = [
-  { id: 'admin', user_code: 'admin', full_name: 'Nguyễn Quản Trị', email: 'admin@a4.edu.vn', role: 'admin', status: 'active', password: 'admin123', skills: [] },
+  { id: 'admin', user_code: 'admin', full_name: 'Nguyễn Quản Trị', email: 'admin@a4.edu.vn', role: 'admin', status: 'active', password: 'admin123', mustChangePassword: false, skills: [] },
   { id: 'ktv1', user_code: 'ktv1', full_name: 'Nguyễn Văn Hùng', email: 'hung.nv@a4.edu.vn', role: 'technician', status: 'active', password: 'ktv123', skills: ['Wi-Fi', 'Internet', 'Mạng LAN'], available: false, checkedIn: false, attendanceHistory: [] },
   { id: 'ktv2', user_code: 'ktv2', full_name: 'Trần Thị Mai', email: 'mai.tt@a4.edu.vn', role: 'technician', status: 'active', password: 'ktv123', skills: ['Thiết bị', 'Khác'], available: false, checkedIn: false, attendanceHistory: [] },
   { id: 'ktv3', user_code: 'ktv3', full_name: 'Lê Quốc Bảo', email: 'bao.lq@a4.edu.vn', role: 'technician', status: 'active', password: 'ktv123', skills: ['Mạng LAN', 'Thiết bị', 'Wi-Fi'], available: false, checkedIn: false, attendanceHistory: [] },
@@ -158,6 +158,26 @@ export function saveUser(user) {
 export function setUserStatus(userId, status) {
   return mutateData(data => {
     data.users = data.users.map(user => user.id === userId ? { ...user, status } : user);
+    return data;
+  });
+}
+
+export function deleteUser(userId) {
+  return mutateData(data => {
+    const user = data.users.find(item => item.id === userId);
+    if (!user) throw new Error('Không tìm thấy tài khoản.');
+    if (user.role === 'admin') throw new Error('Không thể xóa tài khoản Admin.');
+
+    data.tickets = data.tickets.map(ticket => ({
+      ...ticket,
+      requesterId: ticket.requesterId === userId ? null : ticket.requesterId,
+      technicianId: ticket.technicianId === userId ? null : ticket.technicianId,
+      technician: ticket.technicianId === userId ? 'Chưa phân công' : ticket.technician,
+      assistantTechnicianId: ticket.assistantTechnicianId === userId ? null : ticket.assistantTechnicianId,
+      assistantTechnician: ticket.assistantTechnicianId === userId ? '' : ticket.assistantTechnician
+    }));
+    data.passwordRequests = data.passwordRequests.filter(request => request.userId !== userId);
+    data.users = data.users.filter(item => item.id !== userId);
     return data;
   });
 }
@@ -467,10 +487,6 @@ export function findAccount(identifier) {
   return readData().users.find(user => user.user_code.toLocaleLowerCase() === normalized || user.email.toLocaleLowerCase() === normalized);
 }
 
-export function resetDemoData() {
-  writeData(createInitialData());
-}
-
 export function exportCsv(tickets) {
   const headers = ['Mã phiếu', 'Tiêu đề', 'Loại sự cố', 'Vị trí', 'Ưu tiên', 'Trạng thái', 'Người gửi', 'KTV phụ trách', 'KTV hỗ trợ', 'Ngày tạo'];
   const fields = ['id', 'title', 'category', 'location', 'priority', 'status', 'requester', 'technician', 'assistantTechnician', 'createdAt'];
@@ -482,67 +498,6 @@ export function exportCsv(tickets) {
 export function getSystemSettings() {
   const { slaHours, autoAssign } = readData().settings;
   return { slaHours: { ...defaultSlaHours, ...slaHours }, autoAssign };
-}
-
-export function saveSystemSettings({ slaHours, autoAssign }) {
-  const nextSlaHours = {};
-  for (const priority of priorityLevels) {
-    const hours = Number(slaHours?.[priority]);
-    if (!Number.isInteger(hours) || hours < 1 || hours > 720) {
-      throw new Error(`SLA mức "${priority}" phải là số giờ nguyên từ 1 đến 720.`);
-    }
-    nextSlaHours[priority] = hours;
-  }
-  if (typeof autoAssign !== 'boolean') throw new Error('Trạng thái tự động phân công không hợp lệ.');
-  return mutateData(data => {
-    data.settings.slaHours = nextSlaHours;
-    data.settings.autoAssign = autoAssign;
-    return data;
-  });
-}
-
-export function exportDemoBackup() {
-  return JSON.stringify(readData(), null, 2);
-}
-
-export function restoreDemoBackup(contents) {
-  let backup;
-  try {
-    backup = JSON.parse(contents);
-  } catch (error) {
-    throw new Error(`Tệp sao lưu không phải JSON hợp lệ: ${error.message}`);
-  }
-  if (!backup || !Array.isArray(backup.users) || !Array.isArray(backup.tickets)
-    || !Array.isArray(backup.categories) || !backup.settings || typeof backup.settings !== 'object') {
-    throw new Error('Tệp sao lưu thiếu dữ liệu người dùng, phiếu, danh mục hoặc cấu hình.');
-  }
-  if (backup.users.some(user => !user || typeof user.id !== 'string' || typeof user.role !== 'string')
-    || backup.tickets.some(ticket => !ticket || typeof ticket.id !== 'string' || typeof ticket.status !== 'string')
-    || backup.categories.some(category => typeof category !== 'string')) {
-    throw new Error('Dữ liệu trong tệp sao lưu không đúng định dạng.');
-  }
-  backup.pendingAccounts ||= [];
-  backup.passwordRequests ||= [];
-  backup.faqs ||= defaultFaqs.map(faq => ({ ...faq }));
-  if (!Array.isArray(backup.pendingAccounts) || !Array.isArray(backup.passwordRequests) || !Array.isArray(backup.faqs)) {
-    throw new Error('Danh sách yêu cầu hoặc hướng dẫn trong tệp sao lưu không hợp lệ.');
-  }
-  if (backup.faqs.some(faq => !faq || typeof faq.id !== 'string' || typeof faq.question !== 'string' || typeof faq.answer !== 'string')) {
-    throw new Error('Câu hỏi trong tệp sao lưu không đúng định dạng.');
-  }
-  backup.settings.slaHours = { ...defaultSlaHours, ...(backup.settings.slaHours || {}) };
-  for (const priority of priorityLevels) {
-    const hours = Number(backup.settings.slaHours[priority]);
-    if (!Number.isInteger(hours) || hours < 1 || hours > 720) {
-      throw new Error(`SLA mức "${priority}" trong tệp sao lưu không hợp lệ.`);
-    }
-    backup.settings.slaHours[priority] = hours;
-  }
-  if (typeof backup.settings.autoAssign !== 'boolean') backup.settings.autoAssign = true;
-  backup.users = backup.users.map(user => user.role === 'technician' && typeof user.checkedIn !== 'boolean'
-    ? { ...user, checkedIn: false, available: false, attendanceHistory: [] }
-    : user);
-  writeData(backup);
 }
 
 export function getFaqs() {

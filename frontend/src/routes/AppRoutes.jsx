@@ -23,9 +23,10 @@ import CreateUser from '../pages/admin/CreateUser.jsx';
 import EditUser from '../pages/admin/EditUser.jsx';
 import Categories from '../pages/admin/Categories.jsx';
 import Reports from '../pages/admin/Reports.jsx';
-import AdminSettings from '../pages/admin/Settings.jsx';
+import AdminChangePassword from '../pages/admin/ChangePassword.jsx';
 import Help from '../pages/common/Help.jsx';
 import NotFound from '../pages/public/NotFound.jsx';
+import routeGroups from './routeGroups.js';
 
 function Protected({ roles, children }) {
   return <ProtectedRoute roles={roles}>{children}</ProtectedRoute>;
@@ -47,14 +48,13 @@ export default function AppRoutes() {
     <Route path="/user/help" element={<Protected roles={['user']}><Help /></Protected>} />
 
     <Route path="/technician/dashboard" element={<Protected roles={['technician']}><TechnicianDashboard /></Protected>} />
-    <Route path="/technician/help" element={<Protected roles={['technician']}><Help /></Protected>} />
     <Route path="/technician/tickets" element={<Protected roles={['technician']}><AssignedTickets /></Protected>} />
     <Route path="/technician/tickets/:ticketId" element={<Protected roles={['technician']}><TechnicianTicketDetail /></Protected>} />
     <Route path="/technician/profile" element={<Protected roles={['technician']}><TechnicianProfile /></Protected>} />
 
     <Route path="/admin/dashboard" element={<Protected roles={['admin']}><AdminDashboard /></Protected>} />
     <Route path="/admin/help" element={<Protected roles={['admin']}><Help /></Protected>} />
-    <Route path="/admin/settings" element={<Protected roles={['admin']}><AdminSettings /></Protected>} />
+    <Route path="/admin/change-password" element={<Protected roles={['admin']}><AdminChangePassword /></Protected>} />
     <Route path="/admin/tickets" element={<Protected roles={['admin']}><AdminTickets /></Protected>} />
     <Route path="/admin/tickets/:ticketId" element={<Protected roles={['admin']}><AdminTicketDetail /></Protected>} />
     <Route path="/admin/assignments" element={<Protected roles={['admin']}><Assignments /></Protected>} />
@@ -68,9 +68,4 @@ export default function AppRoutes() {
   </Routes>;
 }
 
-export const routeGroups = {
-  public: ['/welcome', '/login', '/request-account', '/forgot-password'],
-  user: ['/user/dashboard', '/user/tickets', '/user/tickets/create', '/user/tickets/:ticketId', '/user/profile', '/user/help'],
-  technician: ['/technician/dashboard', '/technician/tickets', '/technician/tickets/:ticketId', '/technician/profile', '/technician/help'],
-  admin: ['/admin/dashboard', '/admin/tickets', '/admin/assignments', '/admin/users', '/admin/users/create', '/admin/categories', '/admin/reports', '/admin/settings', '/admin/help']
-};
+export { routeGroups };

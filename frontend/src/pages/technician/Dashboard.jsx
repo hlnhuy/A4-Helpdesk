@@ -2,11 +2,7 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import RoleLayout from '../../layouts/RoleLayout.jsx';
 import Panel from '../../components/common/Panel.jsx';
-import MetricCard from '../../components/common/MetricCard.jsx';
-import DonutChart from '../../components/common/DonutChart.jsx';
-import BarList from '../../components/common/BarList.jsx';
 import TicketTable from '../../components/common/TicketTable.jsx';
-import StatusBadge from '../../components/common/StatusBadge.jsx';
 import useAuth from '../../hooks/useAuth.js';
 import useDemoData from '../../hooks/useDemoData.js';
 import { getTickets } from '../../services/ticketService.js';
@@ -24,17 +20,22 @@ export default function Dashboard() {
   const newAssignments = tickets.filter(ticket => ticket.status === 'Mới tiếp nhận');
   const technician = users.find(account => account.id === user.id);
   const checkedIn = technician?.checkedIn === true;
-  const processing = tickets.filter(ticket => ticket.status === 'Đang xử lý').length;
-  const completed = tickets.filter(ticket => ['Đã giải quyết','Đã đóng'].includes(ticket.status)).length;
-  const categoryRows = [...new Set(tickets.map(ticket => ticket.category))]
-    .map(category => [category, tickets.filter(ticket => ticket.category === category).length]);
 
   return <RoleLayout role="technician" title="Bảng làm việc của tôi">
     <Notification message={error} type="error" />
-    <div className="metric-grid tech-metrics">
-      <MetricCard label="Được giao" value={tickets.length} to="/technician/tickets?section=assigned" />
-      <MetricCard label="Đang xử lý" value={processing} to="/technician/tickets?status=Đang%20xử%20lý" />
-      <MetricCard label="Đã hoàn thành" value={completed} to="/technician/tickets?status=Đã%20hoàn%20thành" />
+    <div className="technician-attendance-grid">
+      <Panel className="technician-profile-card">
+        {technician?.avatar
+          ? <img className="technician-profile-avatar" src={technician.avatar} alt={`Ảnh đại diện ${technician.full_name}`} />
+          : <span className="technician-profile-avatar technician-profile-avatar-fallback" aria-hidden="true">{(technician?.full_name || user.full_name || 'KTV').trim().charAt(0).toLocaleUpperCase()}</span>}
+        <div className="technician-profile-info" aria-label="Thông tin kỹ thuật viên">
+          <div className="technician-profile-field"><strong>Mã tài khoản:</strong><span>{technician?.user_code || user.user_code}</span></div>
+          <div className="technician-profile-field"><strong>Họ tên:</strong><span>{technician?.full_name || user.full_name}</span></div>
+          <div className="technician-profile-field"><strong>Email:</strong><span>{technician?.email || user.email}</span></div>
+          <div className="technician-profile-field"><strong>Vai trò:</strong><span>Kỹ thuật viên</span></div>
+          <div className="technician-profile-field"><strong>Chuyên môn:</strong><span>{technician?.skills?.length ? technician.skills.join(', ') : 'Chưa cập nhật'}</span></div>
+        </div>
+      </Panel>
       <Panel className={`availability ${checkedIn ? 'checked-in' : 'checked-out'}`}>
         <span>Tình trạng</span>
         <strong><i /> {checkedIn ? 'Đã Check in' : 'Chưa Check in'}</strong>
@@ -48,12 +49,6 @@ export default function Dashboard() {
       <TicketTable tickets={newAssignments} linkPrefix="/technician/tickets"/>
     </Panel>}
     <Panel className="table-card"><div className="panel-heading-row"><h2>Việc cần làm</h2><Link to="/technician/tickets">Xem tất cả →</Link></div><TicketTable tickets={tickets.filter(ticket => !['Đã đóng'].includes(ticket.status)).slice(0, 10)} linkPrefix="/technician/tickets" /></Panel>
-    <div className="two-column">
-      <Panel><h2>Trạng thái phiếu của tôi</h2><div className="chart-legend"><DonutChart total={tickets.length} values={['Mới tiếp nhận','Đang xử lý','Đã giải quyết','Đã đóng'].map(status => tickets.filter(ticket => ticket.status === status).length)} /><ul>
-        {['Mới tiếp nhận','Đang xử lý','Đã giải quyết','Đã đóng'].map((status,index) => <li key={status}><i className={['legend-blue','legend-orange','legend-green','legend-gray'][index]} />{status}: <b>{tickets.filter(ticket => ticket.status === status).length}</b></li>)}
-      </ul></div></Panel>
-      <Panel><h2>Loại sự cố đã xử lý</h2><BarList rows={categoryRows} /></Panel>
-    </div>
     {faceAction && <FaceCheckModal
       action={faceAction}
       onClose={() => setFaceAction(null)}

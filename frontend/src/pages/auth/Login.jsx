@@ -1,6 +1,22 @@
 import { useState } from 'react';
 import { Link, Navigate, useLocation, useNavigate } from 'react-router-dom';
 import useAuth from '../../hooks/useAuth.js';
+import routeGroups from '../../routes/routeGroups.js';
+
+function isValidDestination(role, requestedPath) {
+  if (!requestedPath?.startsWith('/') || requestedPath.startsWith('//') || requestedPath.includes('\\')) return false;
+  const pathname = requestedPath.split(/[?#]/, 1)[0];
+  return (routeGroups[role] || []).some(route => {
+    const routeSegments = route.split('/');
+    const destinationSegments = pathname.split('/');
+    return routeSegments.length === destinationSegments.length
+      && routeSegments.every((segment, index) => segment.startsWith(':') || segment === destinationSegments[index]);
+  });
+}
+
+function getPasswordChangePath(role) {
+  return role === 'admin' ? '/admin/change-password' : `/${role}/profile`;
+}
 
 export default function Login() {
   const [account, setAccount] = useState('');
@@ -11,7 +27,7 @@ export default function Login() {
   const navigate = useNavigate();
   const location = useLocation();
   const requestedPath = new URLSearchParams(location.search).get('next');
-  const destination = requestedPath?.startsWith(`/${user?.role}/`) ? requestedPath : `/${user?.role}/dashboard`;
+  const destination = isValidDestination(user?.role, requestedPath) ? requestedPath : `/${user?.role}/dashboard`;
 
   async function handleSubmit(event) {
     event.preventDefault();
@@ -20,8 +36,8 @@ export default function Login() {
     try {
       const session = await login({ account, password });
       navigate(session.mustChangePassword
-        ? `/${session.role}/profile`
-        : requestedPath?.startsWith(`/${session.role}/`) ? requestedPath : `/${session.role}/dashboard`, { replace: true });
+        ? getPasswordChangePath(session.role)
+        : isValidDestination(session.role, requestedPath) ? requestedPath : `/${session.role}/dashboard`, { replace: true });
     } catch (loginError) {
       setError(loginError.message);
     } finally {
@@ -29,7 +45,7 @@ export default function Login() {
     }
   }
 
-  if (isAuthenticated) return <Navigate to={user.mustChangePassword ? `/${user.role}/profile` : destination} replace />;
+  if (isAuthenticated) return <Navigate to={user.mustChangePassword ? getPasswordChangePath(user.role) : destination} replace />;
 
   return (
     <section className="auth-card">
