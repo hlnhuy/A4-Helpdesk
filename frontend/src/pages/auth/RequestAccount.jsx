@@ -13,7 +13,7 @@ export default function RequestAccount() {
     event.preventDefault();
     setLoading(true);
     try {
-      await submitApiAccountRequest(form);
+    await submitApiAccountRequest(form);
       setMessage('Yêu cầu đã được gửi. Admin sẽ xem xét và cấp tài khoản nếu phù hợp.');
       setError('');
       setForm({ full_name: '', email: '', note: '' });

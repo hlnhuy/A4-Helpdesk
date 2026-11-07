@@ -45,7 +45,6 @@ export default function Profile() {
       setPasswordMessage('');
     }
   }
-
   return <RoleLayout role={user.role} title="Hồ sơ cá nhân">
     <Panel className="profile-panel">
       <Notification message={error} type="error"/>
